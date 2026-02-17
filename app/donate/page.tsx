@@ -1,4 +1,6 @@
 'use client'
+export const dynamic = "force-dynamic"
+
 
 import { useState } from 'react'
 import { Heart, Shield, Zap, AlertCircle, Calendar, Clock, Repeat, CreditCard } from 'lucide-react'
