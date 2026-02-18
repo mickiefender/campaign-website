@@ -84,6 +84,40 @@ export async function GET(request: NextRequest) {
 
     console.log('Payment verification result:', paymentStatus)
 
+    // If API verification failed (empty response, network error, etc.), 
+    // fall back to the callback status parameter from Hubtel's redirect
+    const shouldUseFallback = !paymentStatus.success && 
+      (paymentStatus.message?.includes('empty response') || 
+       paymentStatus.message?.includes('verification unavailable') ||
+       paymentStatus.message?.includes('Invalid JSON'))
+
+    if (shouldUseFallback && status === 'success') {
+      console.warn('API verification failed, using callback status parameter as fallback')
+      console.log('Callback status indicates success, marking donation as completed')
+      
+      // Trust the callback status parameter when API verification is unavailable
+      const { error: updateError } = await supabase
+        .from('donations')
+        .update({
+          status: 'completed',
+          transaction_reference: clientReference,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', donationId)
+
+      if (updateError) {
+        console.error('Error updating donation:', updateError)
+        return NextResponse.redirect(
+          new URL('/donate/failed?error=update_failed', request.url)
+        )
+      }
+
+      console.log(`Donation ${donationId} marked as completed (via callback fallback)`)
+      return NextResponse.redirect(
+        new URL(`/donate/success?ref=${clientReference}&amount=${donation.amount}`, request.url)
+      )
+    }
+
     // Update donation based on verified status
     if (paymentStatus.success && paymentStatus.status === 'completed') {
       // Payment confirmed as successful

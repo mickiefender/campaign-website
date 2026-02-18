@@ -2,15 +2,75 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Heart, Users, Newspaper, ArrowRight } from 'lucide-react'
+import { Heart, Users, Newspaper, ArrowRight, BookOpen, TrendingUp, Stethoscope, Building2, Leaf, Handshake } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import TypingName from '@/components/typing-name'
 import RouteLoader from '@/components/route-loader'
-import { FlagAnimation, GhanaMap } from '@/components/svg-animations'
+import { FlagAnimation } from '@/components/svg-animations'
 import { VideoModal } from '@/components/video-modal'
+import { VisionModal } from '@/components/vision-modal'
+import { GhanaMap } from '@/components/ghana-map'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
+  const [selectedVision, setSelectedVision] = useState<any>(null)
+  const [isVisionModalOpen, setIsVisionModalOpen] = useState(false)
+
+  const visionData = [
+    {
+      id: 1,
+      title: 'Quality Education',
+      desc: 'Ensuring every child has access to world-class education and skills training.',
+      icon: <BookOpen className="text-white" size={24} />,
+      color: 'bg-purple-500',
+      details: 'We are committed to revolutionizing Ghana\'s educational system by building modern schools, training qualified teachers, and ensuring that every child, regardless of their socioeconomic background, has access to quality education. This includes vocational training programs and digital literacy initiatives to prepare our youth for the future.'
+    },
+    {
+      id: 2,
+      title: 'Economic Growth',
+      desc: 'Creating jobs and supporting entrepreneurship across all sectors.',
+      icon: <TrendingUp className="text-white" size={24} />,
+      color: 'bg-red-500',
+      details: 'Our economic strategy focuses on job creation, small business support, and attracting foreign investment. We will establish business incubation centers, provide microfinance for entrepreneurs, and develop key sectors like agriculture, manufacturing, and technology to drive sustainable economic growth.'
+    },
+    {
+      id: 3,
+      title: 'Healthcare for All',
+      desc: 'Building accessible, affordable, and quality healthcare services.',
+      icon: <Stethoscope className="text-white" size={24} />,
+      color: 'bg-cyan-500',
+      details: 'We envision a Ghana where every citizen has access to affordable, quality healthcare. This includes establishing healthcare facilities in rural areas, providing preventive care programs, improving maternal and child health services, and ensuring essential medicines are accessible to all Ghanaians.'
+    },
+    {
+      id: 4,
+      title: 'Infrastructure',
+      desc: 'Developing roads, electricity, water, and digital infrastructure nationwide.',
+      icon: <Building2 className="text-white" size={24} />,
+      color: 'bg-yellow-500',
+      details: 'Infrastructure development is crucial for national progress. We will invest in modern road networks, reliable electricity supply, clean water systems, and high-speed internet connectivity across all regions. This will enhance connectivity between communities and drive economic development.'
+    },
+    {
+      id: 5,
+      title: 'Environmental Care',
+      desc: 'Protecting our environment while pursuing sustainable development.',
+      icon: <Leaf className="text-white" size={24} />,
+      color: 'bg-green-500',
+      details: 'Sustainability is at the core of our vision. We are committed to environmental conservation, combating climate change, protecting our forests and water bodies, and promoting renewable energy. We will balance development with environmental protection for future generations.'
+    },
+    {
+      id: 6,
+      title: 'Social Cohesion',
+      desc: 'Building unity, peace, and mutual respect across all communities.',
+      icon: <Handshake className="text-white" size={24} />,
+      color: 'bg-pink-500',
+      details: 'A united Ghana is a strong Ghana. We will promote social harmony, strengthen community bonds, support cultural exchange, and ensure equal opportunities for all citizens regardless of ethnicity or religion. Peace and unity are the foundation of national progress.'
+    },
+  ]
+
+  const handleVisionClick = (vision: any) => {
+    setSelectedVision(vision)
+    setIsVisionModalOpen(true)
+  }
 
   useEffect(() => {
     const handleStart = () => setIsLoading(true)
@@ -38,7 +98,17 @@ backdrop-blur-md
 py-4 px-4 md:py-5">
 
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="text-white font-bold text-xl md:text-2xl tracking-wider">Dr.Dwamena</div>
+         <div className="flex items-center">
+  <Image
+    src="/image/campaign-logo.png"
+    alt="Dr Dwamena Logo"
+    width={150}
+    height={50}
+    className="object-contain"
+    priority
+  />
+</div>
+
           <nav className="hidden sm:flex items-center gap-4 md:gap-8">
             <Link href="#" className="text-white text-sm md:text-base hover:text-primary transition duration-300 font-medium">Home</Link>
             <Link href="#" className="text-white text-sm md:text-base hover:text-primary transition duration-300 font-medium">About</Link>
@@ -257,57 +327,138 @@ group"
         </div>
       </section>
 
-      {/* Contestant Bio Section */}
-      <section className="relative bg-secondary text-secondary-foreground py-20 px-4 overflow-hidden">
-        {/* Blurred Background Image */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/image/Dr.Dwamena-Black outfit.jpg"
-            alt="Background"
-            fill
-            className="object-cover blur-2xl scale-110 opacity-20"
-          />
-        </div>
-        {/* Blurred Gradient Overlay */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-br from-blue-500/15 via-black/30 to-red-500/15 blur-xl opacity-60" />
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-secondary/80 via-secondary/70 to-secondary/90" />
+      {/* About Section - Modern Design */}
+      <section className="relative py-20 px-4 overflow-hidden bg-white">
+        <style>{`
+          .circular-main {
+            width: clamp(280px, 35vw, 400px);
+            height: clamp(280px, 35vw, 400px);
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            animation: float 3s ease-in-out infinite;
+          }
+
+          @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+          }
+
+          .circular-secondary {
+            width: clamp(150px, 18vw, 200px);
+            height: clamp(150px, 18vw, 200px);
+            border-radius: 50%;
+            overflow: hidden;
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            background: #0891b2;
+            box-shadow: 0 10px 30px rgba(8, 145, 178, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s ease-in-out infinite;
+          }
+
+          @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+          }
+
+          .circular-profile {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #0891b2;
+            border: 4px solid white;
+            box-shadow: 0 8px 20px rgba(8, 145, 178, 0.25);
+            margin-top: 12px;
+          }
+
+          .curve-accent {
+            position: absolute;
+            opacity: 0.6;
+          }
+
+          .curve-top {
+            top: -20px;
+            right: 50px;
+            width: 80px;
+            height: 80px;
+            border: 3px solid #f87171;
+            border-radius: 0 0 100% 0;
+          }
+
+          .curve-bottom {
+            bottom: 50px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            border: 2px solid #0891b2;
+            border-radius: 100% 0 0 0;
+          }
+        `}</style>
+
         <div className="relative z-10 max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-            <div className="animate-fade-in-left bg-secondary/70 backdrop-blur-md rounded-xl p-6 md:p-0 md:bg-transparent md:backdrop-blur-none">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 animate-slide-down-fade">About Dr. Charles Dwamena</h2>
-              <div className="space-y-4 text-base md:text-lg leading-relaxed">
-                <p className="animate-fade-in-up" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
-                  Dr. Charles Dwamena is a visionary leader with decades of experience in public service, education, and economic development. Born and raised in Ghana, he understands the unique challenges facing our nation.
-                </p>
-                <p className="animate-fade-in-up" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
-                  With a doctorate in Economics and a proven track record of transformative leadership, Dr. Dwamena has dedicated his life to creating opportunities for all Ghanaians. His vision centers on sustainable development, quality education, healthcare accessibility, and economic prosperity.
-                </p>
-                <p className="animate-fade-in-up" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
-                  As the New Patriotic Party's candidate, he brings integrity, innovation, and inclusive governance to the forefront of his campaign. Dr. Dwamena believes that Ghana's greatest resource is its people, and together, we can build a nation where every citizen has the opportunity to thrive.
-                </p>
-              </div>
-              <div className="mt-8 grid grid-cols-3 gap-6">
-                <div className="animate-fade-in-up" style={{ animationDelay: '0.4s', animationFillMode: 'both' }}>
-                  <div className="text-3xl font-bold text-primary">30+</div>
-                  <p className="text-sm">Years of Experience</p>
-                </div>
-                <div className="animate-fade-in-up" style={{ animationDelay: '0.5s', animationFillMode: 'both' }}>
-                  <div className="text-3xl font-bold text-primary">50+</div>
-                  <p className="text-sm">Community Projects</p>
-                </div>
-                <div className="animate-fade-in-up" style={{ animationDelay: '0.6s', animationFillMode: 'both' }}>
-                  <div className="text-3xl font-bold text-primary">100K+</div>
-                  <p className="text-sm">Lives Impacted</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+            {/* Left - Images Section */}
+            <div className="relative h-96 md:h-full flex items-center justify-center animate-fade-in-left">
+              {/* Curve decorations */}
+              <div className="curve-accent curve-top"></div>
+              <div className="curve-accent curve-bottom"></div>
+
+              {/* Main circular image */}
+              <div className="circular-main relative">
+                <Image
+                  src="/image/main-flyer.JPG"
+                  alt="Dr. Charles Dwamena"
+                  fill
+                  className="object-cover"
+                />
+                
+                {/* Secondary circular overlay */}
+                <div className="circular-secondary">
+                  <div className="relative w-full h-full">
+                    <Image
+                      src="/image/Dr.Dwamena-Black outfit.jpg"
+                      alt="Dr. Dwamena Portrait"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="relative h-72 md:h-96 rounded-xl overflow-hidden shadow-2xl animate-slide-in-right">
-              <Image
-                src="/image/Dr.Dwamena_image.png"
-                alt="Dr. Charles Dwamena"
-                fill
-                className="object-cover transform hover:scale-110 transition duration-500"
-              />
+
+            {/* Right - Content Section */}
+            <div className="animate-fade-in-right">
+              <p className="text-sm font-semibold text-red-500 mb-3 tracking-wide">ABOUT </p>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight text-balance">
+                Transforming Ghana Through Visionary Leadership
+              </h2>
+              
+              <div className="space-y-4 mb-8">
+                <p className="text-base md:text-lg text-gray-600 leading-relaxed">
+                  Dr. Charles Dwamena is a visionary leader with decades of experience in public service, education, and economic development. Born and raised in Ghana, he understands the unique challenges facing our nation and is committed to delivering real solutions.
+                </p>
+                <p className="text-base md:text-lg text-gray-600 leading-relaxed">
+                  With a doctorate in Economics and a proven track record of transformative leadership, Dr. Dwamena has dedicated his life to creating opportunities for all Ghanaians. His vision centers on sustainable development, quality education, healthcare accessibility, and economic prosperity.
+                </p>
+              </div>
+
+              
+            
+
+              {/* CTA Button */}
+              <Link
+                href="/vision"
+                className="inline-block px-8 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition transform hover:scale-105 shadow-lg hover:shadow-xl"
+                onClick={() => setIsLoading(true)}
+              >
+                Learn More
+              </Link>
             </div>
           </div>
         </div>
@@ -322,25 +473,19 @@ group"
           Dr. Charles Dwamena's vision encompasses six pillars that will transform Ghana into a beacon of progress and prosperity.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {[
-            { title: 'Quality Education', desc: 'Ensuring every child has access to world-class education and skills training.' },
-            { title: 'Economic Growth', desc: 'Creating jobs and supporting entrepreneurship across all sectors.' },
-            { title: 'Healthcare for All', desc: 'Building accessible, affordable, and quality healthcare services.' },
-            { title: 'Infrastructure', desc: 'Developing roads, electricity, water, and digital infrastructure nationwide.' },
-            { title: 'Environmental Care', desc: 'Protecting our environment while pursuing sustainable development.' },
-            { title: 'Social Cohesion', desc: 'Building unity, peace, and mutual respect across all communities.' },
-          ].map((pillar, idx) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6">
+          {visionData.map((vision, idx) => (
             <div 
-              key={idx} 
-              className="animate-bounce-in bg-card rounded-xl p-8 border border-border hover:border-primary transition transform hover:-translate-y-2 hover:shadow-2xl group"
+              key={vision.id} 
+              onClick={() => handleVisionClick(vision)}
+              className="animate-bounce-in bg-white rounded-2xl p-6 md:p-8 border border-gray-200 hover:border-gray-400 transition transform hover:-translate-y-2 hover:shadow-xl group cursor-pointer"
               style={{ animationDelay: `${idx * 0.1}s`, animationFillMode: 'both' }}
             >
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/20 group-hover:scale-110 transition">
-                <span className="text-primary font-bold text-lg">{idx + 1}</span>
+              <div className={`w-14 h-14 md:w-16 md:h-16 ${vision.color} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition`}>
+                {vision.icon}
               </div>
-              <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition">{pillar.title}</h3>
-              <p className="text-muted-foreground group-hover:text-foreground transition">{pillar.desc}</p>
+              <h3 className="text-lg md:text-xl font-bold mb-2 text-gray-800 group-hover:text-gray-900 transition">{vision.title}</h3>
+              <p className="text-sm md:text-base text-gray-600 group-hover:text-gray-700 transition line-clamp-2">{vision.desc}</p>
             </div>
           ))}
         </div>
@@ -355,6 +500,13 @@ group"
           </Link>
         </div>
       </section>
+
+      {/* Vision Modal */}
+      <VisionModal 
+        isOpen={isVisionModalOpen} 
+        onClose={() => setIsVisionModalOpen(false)} 
+        vision={selectedVision} 
+      />
 
       {/* Ghana Map Section */}
      {/* Nationwide Campaign Coverage Section */}

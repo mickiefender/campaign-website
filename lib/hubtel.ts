@@ -50,7 +50,50 @@ export async function verifyPaymentStatus(clientReference: string): Promise<Hubt
       }
     )
 
-    const data = await response.json()
+    console.log('Hubtel API response status:', response.status)
+    console.log('Hubtel API response headers:', Object.fromEntries(response.headers.entries()))
+
+    // Handle empty responses (204 No Content or empty body)
+    const contentType = response.headers.get('content-type')
+    const contentLength = response.headers.get('content-length')
+    
+    // Check if response has no content
+    if (response.status === 204 || contentLength === '0') {
+      console.warn('Hubtel API returned empty response (no content)')
+      return {
+        success: false,
+        status: 'failed',
+        message: 'Hubtel API returned empty response - verification unavailable',
+      }
+    }
+
+    // Try to get response text first for debugging
+    const responseText = await response.text()
+    console.log('Hubtel API response text:', responseText)
+
+    // Check if response is empty
+    if (!responseText || responseText.trim() === '') {
+      console.warn('Hubtel API returned empty response body')
+      return {
+        success: false,
+        status: 'failed',
+        message: 'Hubtel API returned empty response body - verification unavailable',
+      }
+    }
+
+    // Try to parse as JSON
+    let data: any
+    try {
+      data = JSON.parse(responseText)
+    } catch (parseError) {
+      console.error('Failed to parse Hubtel response as JSON:', parseError)
+      console.error('Response text was:', responseText)
+      return {
+        success: false,
+        status: 'failed',
+        message: 'Invalid JSON response from Hubtel API',
+      }
+    }
 
     // Check if request was successful
     if (!response.ok) {
@@ -96,6 +139,7 @@ export async function verifyPaymentStatus(clientReference: string): Promise<Hubt
     }
 
     // If we get here, the response format was unexpected
+    console.warn('Unexpected Hubtel response format:', data)
     return {
       success: false,
       status: 'failed',
