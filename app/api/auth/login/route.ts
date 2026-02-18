@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSession, verifyAdminCredentials } from '@/lib/auth'
 
+// Force dynamic rendering to prevent static optimization
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()

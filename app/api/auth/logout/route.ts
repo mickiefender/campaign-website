@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 import { deleteSession } from '@/lib/auth'
 
+// Force dynamic rendering to prevent static optimization
+export const dynamic = 'force-dynamic'
+
 export async function POST() {
   try {
     await deleteSession()

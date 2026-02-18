@@ -1,16 +1,16 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { XCircle, ArrowLeft, Heart, HelpCircle } from 'lucide-react'
 
-export default function DonationCancelled() {
+function CancelledContent() {
   const searchParams = useSearchParams()
   const clientReference = searchParams.get('ref')
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-background flex items-center justify-center px-4 py-16">
-      <div className="max-w-2xl w-full">
+    <div className="max-w-2xl w-full">
         {/* Cancelled Icon */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-24 h-24 bg-orange-100 rounded-full mb-6">
@@ -152,6 +152,24 @@ export default function DonationCancelled() {
           </Link>
         </div>
       </div>
+  )
+}
+
+export default function DonationCancelled() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-background flex items-center justify-center px-4 py-16">
+      <Suspense fallback={
+        <div className="max-w-2xl w-full">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-24 h-24 bg-orange-100 rounded-full mb-6">
+              <XCircle className="text-orange-600" size={56} />
+            </div>
+            <h1 className="text-4xl font-bold mb-4 text-orange-900">Loading...</h1>
+          </div>
+        </div>
+      }>
+        <CancelledContent />
+      </Suspense>
     </div>
   )
 }

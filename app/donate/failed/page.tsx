@@ -1,10 +1,11 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { AlertTriangle, RefreshCw, HelpCircle, ArrowLeft, Heart } from 'lucide-react'
 
-export default function DonationFailed() {
+function FailedContent() {
   const searchParams = useSearchParams()
   const clientReference = searchParams.get('ref')
   const errorCode = searchParams.get('error')
@@ -28,8 +29,7 @@ export default function DonationFailed() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-red-50 to-background flex items-center justify-center px-4 py-16">
-      <div className="max-w-2xl w-full">
+    <div className="max-w-2xl w-full">
         {/* Error Icon */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-24 h-24 bg-red-100 rounded-full mb-6">
@@ -215,6 +215,24 @@ export default function DonationFailed() {
           </Link>
         </div>
       </div>
+  )
+}
+
+export default function DonationFailed() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-red-50 to-background flex items-center justify-center px-4 py-16">
+      <Suspense fallback={
+        <div className="max-w-2xl w-full">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-24 h-24 bg-red-100 rounded-full mb-6">
+              <AlertTriangle className="text-red-600" size={56} />
+            </div>
+            <h1 className="text-4xl font-bold mb-4 text-red-900">Loading...</h1>
+          </div>
+        </div>
+      }>
+        <FailedContent />
+      </Suspense>
     </div>
   )
 }

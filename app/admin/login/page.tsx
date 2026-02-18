@@ -1,14 +1,14 @@
 'use client'
 export const dynamic = 'force-dynamic'
 
-import { useState, FormEvent } from 'react'
+import { useState, FormEvent, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Lock, AlertCircle, Mail } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-export default function AdminLogin() {
+function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [email, setEmail] = useState('')
@@ -49,8 +49,7 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
@@ -131,11 +130,30 @@ export default function AdminLogin() {
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="text-center mt-8 text-sm text-muted-foreground">
-          <p>NPP Campaign Admin • Secure Access</p>
-        </div>
+      {/* Footer */}
+      <div className="text-center mt-8 text-sm text-muted-foreground">
+        <p>NPP Campaign Admin • Secure Access</p>
       </div>
+    </div>
+  )
+}
+
+export default function AdminLogin() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted flex items-center justify-center p-4">
+      <Suspense fallback={
+        <div className="w-full max-w-md">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
+              <Lock className="text-primary" size={32} />
+            </div>
+            <h1 className="text-3xl font-bold mb-2">Admin Login</h1>
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </div>
+      }>
+        <LoginForm />
+      </Suspense>
     </div>
   )
 }

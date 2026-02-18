@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Clock, RefreshCw, AlertCircle, CheckCircle, XCircle } from 'lucide-react'
 
-export default function DonationPending() {
+function PendingContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const clientReference = searchParams.get('ref')
@@ -54,8 +54,7 @@ export default function DonationPending() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-background flex items-center justify-center px-4 py-16">
-      <div className="max-w-2xl w-full">
+    <div className="max-w-2xl w-full">
         {/* Pending Icon */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-24 h-24 bg-yellow-100 rounded-full mb-6">
@@ -239,6 +238,24 @@ export default function DonationPending() {
           </p>
         </div>
       </div>
+  )
+}
+
+export default function DonationPending() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-background flex items-center justify-center px-4 py-16">
+      <Suspense fallback={
+        <div className="max-w-2xl w-full">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-24 h-24 bg-yellow-100 rounded-full mb-6">
+              <Clock className="text-yellow-600" size={56} />
+            </div>
+            <h1 className="text-4xl font-bold mb-4 text-yellow-900">Loading...</h1>
+          </div>
+        </div>
+      }>
+        <PendingContent />
+      </Suspense>
     </div>
   )
 }

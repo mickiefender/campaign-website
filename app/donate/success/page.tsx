@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { CheckCircle, Heart, Share2, Download, ArrowRight } from 'lucide-react'
 
-export default function DonationSuccess() {
+function SuccessContent() {
   const searchParams = useSearchParams()
   const clientReference = searchParams.get('ref')
   const amount = searchParams.get('amount')
@@ -42,8 +42,7 @@ export default function DonationSuccess() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-background flex items-center justify-center px-4 py-16">
-      <div className="max-w-2xl w-full">
+    <div className="max-w-2xl w-full">
         {/* Success Icon */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-24 h-24 bg-green-100 rounded-full mb-6 animate-bounce">
@@ -195,6 +194,24 @@ export default function DonationSuccess() {
           </p>
         </div>
       </div>
+  )
+}
+
+export default function DonationSuccess() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-green-50 to-background flex items-center justify-center px-4 py-16">
+      <Suspense fallback={
+        <div className="max-w-2xl w-full">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-24 h-24 bg-green-100 rounded-full mb-6">
+              <CheckCircle className="text-green-600" size={56} />
+            </div>
+            <h1 className="text-4xl font-bold mb-4 text-green-900">Loading...</h1>
+          </div>
+        </div>
+      }>
+        <SuccessContent />
+      </Suspense>
     </div>
   )
 }
