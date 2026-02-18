@@ -15,7 +15,7 @@ const PAYMENT_CATEGORIES = [
 ]
 
 const CATEGORY_AMOUNTS: Record<PaymentCategory, number[]> = {
-  daily: [5, 10, 20, 100],
+  daily: [1, 10, 20, 100],
   weekly: [500, 1000, 2000, 5000, 10000],
   monthly: [10000, 20000, 30000, 40000, 50000],
   onetime: [100, 250, 500, 1000, 5000, 10000],

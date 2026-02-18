@@ -147,22 +147,47 @@ export function validateWebhookSignature(payload: string, signature: string): bo
 
 /**
  * Extracts donation ID from client reference
- * Format: DON-{id}-{timestamp}
+ * Format: DON-{short-id}-{timestamp}
+ * 
+ * Note: This function now returns the short ID (first 8 chars of UUID without hyphens)
+ * To get the full UUID, you'll need to query the database using this short ID prefix.
  * 
  * @param clientReference - The client reference string
- * @returns The donation ID or null if invalid format
+ * @returns The short donation ID or null if invalid format
  */
-export function extractDonationId(clientReference: string): number | null {
-  const match = clientReference?.match(/DON-(\d+)-/)
-  return match ? parseInt(match[1]) : null
+export function extractDonationId(clientReference: string): string | null {
+  const match = clientReference?.match(/DON-([A-Z0-9]+)-/)
+  return match ? match[1] : null
 }
 
 /**
  * Generates a unique client reference for a donation
+ * Format: DON-{short-id}-{timestamp}
+ * Example: DON-3C7BECE2-67890123 (max ~25 characters)
  * 
- * @param donationId - The donation ID
- * @returns A unique client reference string
+ * This shorter format ensures compliance with Hubtel's ClientReference length limit
+ * while maintaining uniqueness through shortened UUID and timestamp.
+ * 
+ * @param donationId - The donation ID (can be UUID or number)
+ * @returns A unique client reference string (max ~25 characters)
  */
-export function generateClientReference(donationId: number): string {
-  return `DON-${donationId}-${Date.now()}`
+export function generateClientReference(donationId: string | number): string {
+  // Convert donationId to string and handle both UUID and numeric IDs
+  const idString = String(donationId)
+  
+  // If it's a UUID, take first 8 characters (without hyphens)
+  // If it's a number, use it as is
+  let shortId: string
+  if (idString.includes('-')) {
+    // UUID format - take first 8 chars and remove hyphens
+    shortId = idString.replace(/-/g, '').substring(0, 8).toUpperCase()
+  } else {
+    // Numeric ID - use as is
+    shortId = idString
+  }
+  
+  // Use last 8 digits of timestamp to keep it short
+  const timestamp = Date.now().toString().slice(-8)
+  
+  return `DON-${shortId}-${timestamp}`
 }

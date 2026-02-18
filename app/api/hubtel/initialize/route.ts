@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
+import { generateClientReference } from '@/lib/hubtel'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -31,7 +32,7 @@ export async function POST(request: NextRequest) {
           full_name: isAnonymous ? 'Anonymous Donor' : fullName,
           email: email,
           phone: phone || null,
-          amount: amount / 100, // Convert from pesewas to Ghana cedis
+          amount: amount, // Amount is already in cedis from frontend
           is_anonymous: isAnonymous,
           message: message || null,
           status: 'pending',
@@ -47,13 +48,17 @@ export async function POST(request: NextRequest) {
 
     const donationId = donation?.[0]?.id
 
-    // Generate unique client reference
-    const clientReference = `DON-${donationId}-${Date.now()}`
+    // Generate unique client reference using utility function
+    const clientReference = generateClientReference(donationId)
+    
+    // Debug: Log the generated reference and its length
+    console.log('Generated clientReference:', clientReference)
+    console.log('ClientReference length:', clientReference.length)
 
     // Initialize Hubtel transaction
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
     const hubtelPayload = {
-      totalAmount: amount / 100, // Hubtel expects amount in cedis, not pesewas
+      totalAmount: amount, // Amount is already in cedis
       description: `Campaign Donation - ${isAnonymous ? 'Anonymous' : fullName}`,
       callbackUrl: `${baseUrl}/api/hubtel/webhook`,
       returnUrl: `${baseUrl}/api/hubtel/callback?status=success&clientReference=${clientReference}`,

@@ -29,15 +29,7 @@ export async function POST(request: NextRequest) {
 
       // Status should be 'Success' or 'Paid'
       if (Status === 'Success' || Status === 'Paid') {
-        // Extract donation ID from client reference using utility function
-        const donationId = extractDonationId(ClientReference)
-        
-        if (!donationId) {
-          console.error('Invalid client reference format:', ClientReference)
-          return NextResponse.json({ error: 'Invalid reference' }, { status: 400 })
-        }
-
-        // Update donation status
+        // Update donation status using transaction_reference
         const { error: updateError } = await supabase
           .from('donations')
           .update({
@@ -45,14 +37,14 @@ export async function POST(request: NextRequest) {
             transaction_reference: ClientReference,
             updated_at: new Date(),
           })
-          .eq('id', donationId)
+          .eq('transaction_reference', ClientReference)
 
         if (updateError) {
           console.error('Error updating donation:', updateError)
           return NextResponse.json({ error: updateError.message }, { status: 400 })
         }
 
-        console.log(`Donation ${donationId} marked as completed. Transaction ID: ${TransactionId}`)
+        console.log(`Donation with reference ${ClientReference} marked as completed. Transaction ID: ${TransactionId}`)
       } else {
         console.log(`Payment status: ${Status} for reference: ${ClientReference}`)
       }
@@ -75,22 +67,17 @@ export async function GET(request: NextRequest) {
     const clientReference = searchParams.get('clientReference')
 
     if (status === 'success' && clientReference) {
-      // Extract donation ID from client reference using utility function
-      const donationId = extractDonationId(clientReference)
-      
-      if (donationId) {
-        // Update donation status
-        await supabase
-          .from('donations')
-          .update({
-            status: 'completed',
-            transaction_reference: clientReference,
-            updated_at: new Date().toISOString(),
-          })
-          .eq('id', donationId)
+      // Update donation status using transaction_reference
+      await supabase
+        .from('donations')
+        .update({
+          status: 'completed',
+          transaction_reference: clientReference,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('transaction_reference', clientReference)
 
-        console.log(`Donation ${donationId} marked as completed via GET callback`)
-      }
+      console.log(`Donation with reference ${clientReference} marked as completed via GET callback`)
     }
 
     return NextResponse.json({ success: true })

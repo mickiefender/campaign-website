@@ -35,28 +35,22 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Extract donation ID from client reference
-    const donationId = extractDonationId(clientReference)
-    if (!donationId) {
-      console.error('Invalid client reference format:', clientReference)
-      return NextResponse.redirect(
-        new URL('/donate/failed?error=invalid_reference', request.url)
-      )
-    }
-
-    // Fetch the donation record
+    // Fetch the donation record using the transaction_reference
+    // Since we store the full clientReference in the database, we can query by it directly
     const { data: donation, error: fetchError } = await supabase
       .from('donations')
       .select('*')
-      .eq('id', donationId)
+      .eq('transaction_reference', clientReference)
       .single()
 
     if (fetchError || !donation) {
-      console.error('Donation not found:', donationId, fetchError)
+      console.error('Donation not found for reference:', clientReference, fetchError)
       return NextResponse.redirect(
         new URL('/donate/failed?error=donation_not_found', request.url)
       )
     }
+
+    const donationId = donation.id
 
     // If donation is already completed, redirect to success page
     if (donation.status === 'completed') {

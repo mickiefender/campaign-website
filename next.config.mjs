@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Ensure API routes are not statically optimized
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
+  },
   webpack(config) {
     // Find existing SVG rule
     const fileLoaderRule = config.module.rules.find((rule) =>
