@@ -206,32 +206,45 @@ py-4 px-4 md:py-5">
 
         <TypingName />
 
-        {/* NPP Campaign Badge */}
-        <div className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-full bg-gradient-to-r from-red-600/30 to-blue-600/30 border border-red-500/50 backdrop-blur-sm mb-6">
-          <span className="text-sm md:text-base font-bold">
-            <span className="text-red-400">FOR NPP</span>
-            <span className="text-white mx-2">•</span>
-            <span className="text-blue-400">GENERAL SECRETARY</span>
-          </span>
-        </div>
+       {/* NPP Campaign Badge */}
+<div className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-full bg-white border border-gray-200 shadow-sm mb-6">
+  <span className="text-sm md:text-base font-bold">
+    <span className="text-red-600">FOR NPP</span>
+    <span className="text-gray-400 mx-2">•</span>
+    <span className="text-blue-600">GENERAL SECRETARY</span>
+  </span>
+</div>
 
 
-       
+{/* Donation CTA */}
+<div className="mt-8 p-6 rounded-xl bg-white border border-gray-200 shadow-lg">
+  <p className="text-gray-900 font-semibold mb-2">Support Our Vision</p>
 
+  <p className="text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-red-500 to-blue-500 bg-clip-text mb-3">
+    Dial <span className="font-mono">*713*2028#</span> to Donate
+  </p>
 
-        {/* Donation CTA */}
-        <div className="mt-8 p-6 rounded-xl bg-gradient-to-r from-red-600/20 to-blue-600/20 border-2 border-red-500/50 backdrop-blur-sm">
-          <p className="text-white font-semibold mb-2">Support Our Vision</p>
-          <p className="text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-red-400 to-blue-400 bg-clip-text mb-3">
-            Dial <span className="font-mono">*713*2028#</span> to Donate
-          </p>
-          <p className="text-sm text-white/80">Every contribution empowers our movement for national transformation</p>
-        </div>
+  <p className="text-sm text-gray-600">
+    Every contribution empowers our movement for national transformation
+  </p>
 
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-16 mt-8">
+  {/* Buttons Area */}
+  <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-6">
+    <button className="bg-white text-gray-900 font-semibold px-6 py-3 rounded-xl shadow-md border border-gray-200 hover:bg-gray-50 hover:shadow-lg active:scale-95 transition-all duration-300 w-full sm:w-auto">
+      Donate Now
+    </button>
 
-        </div>
+    <button className="bg-white text-gray-900 font-semibold px-6 py-3 rounded-xl shadow-md border border-gray-200 hover:bg-gray-50 hover:shadow-lg active:scale-95 transition-all duration-300 w-full sm:w-auto">
+      Learn More
+    </button>
+  </div>
+</div>
+
+<div className="flex flex-col lg:flex-row items-center justify-between gap-16 mt-8">
+</div>
+
       </div>
+
 
       {/* RIGHT SIDE - IMAGE */}
       <div className="lg:w-1/2 flex justify-center lg:justify-end relative">
