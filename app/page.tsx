@@ -115,7 +115,7 @@ py-4 px-4 md:py-5">
             <Link href="#" className="text-white text-sm md:text-base hover:text-primary transition duration-300 font-medium">Vision</Link>
             <Link href="#" className="text-white text-sm md:text-base hover:text-primary transition duration-300 font-medium">Contact</Link>
           </nav>
-          <button className="sm:hidden text-white text-2xl font-light">☰</button>
+         
         </div>
       </header>
 
