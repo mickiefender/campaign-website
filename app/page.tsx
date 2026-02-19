@@ -100,7 +100,7 @@ py-4 px-4 md:py-5">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
          <div className="flex items-center">
   <Image
-    src="/image/campaign-logo.png"
+    src="/image/campaign-logo1.png"
     alt="Dr Dwamena Logo"
     width={150}
     height={50}
@@ -454,10 +454,13 @@ group"
               
               <div className="space-y-4 mb-8">
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed">
-                  Dr. Charles Dwamena is a visionary leader with decades of experience in public service, education, and economic development. Born and raised in Ghana, he understands the unique challenges facing our nation and is committed to delivering real solutions.
+                  Dr. Charles Dwamena is a visionary leader with decades of experience in public service, an aluminary in Finance and Administration. Born and raised in Ghana, he understands the unique challenges facing our nation and is committed to delivering real solutions.
                 </p>
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed">
-                  With a doctorate in Economics and a proven track record of transformative leadership, Dr. Dwamena has dedicated his life to creating opportunities for all Ghanaians. His vision centers on sustainable development, quality education, healthcare accessibility, and economic prosperity.
+                  MSc Clinical Sciences (Otolaryngology–ENT), Plymouth University
+• Master of Business Administration (Leadership and Sustainability), MBA – University of Cumbria
+• Bachelor of Medicine, Bachelor of Surgery (MBBS) – Wenzhou Medical University
+• Teaching Certificate, CELTA – Cambridge University
                 </p>
               </div>
 
