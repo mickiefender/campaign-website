@@ -231,7 +231,7 @@ py-4 px-4 md:py-5">
   {/* Buttons Area */}
   <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-6">
     <button className="bg-white text-gray-900 font-semibold px-6 py-3 rounded-xl shadow-md border border-gray-200 hover:bg-gray-50 hover:shadow-lg active:scale-95 transition-all duration-300 w-full sm:w-auto">
-      Donate Now
+     <a href="/donate">Donate Now</a>
     </button>
 
     <button className="bg-white text-gray-900 font-semibold px-6 py-3 rounded-xl shadow-md border border-gray-200 hover:bg-gray-50 hover:shadow-lg active:scale-95 transition-all duration-300 w-full sm:w-auto">
