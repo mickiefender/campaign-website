@@ -8,7 +8,7 @@ import { DataTable } from '@/components/admin/data-table'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { toast } from 'sonner'
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts'
 
 interface Stats {
   totalDonations: number
@@ -84,6 +84,7 @@ export default function AdminDashboard() {
   })
   const [recentDonations, setRecentDonations] = useState<any[]>([])
   const [recentVolunteers, setRecentVolunteers] = useState<any[]>([])
+  const [volunteerRegionStats, setVolunteerRegionStats] = useState<{ region: string; count: number }[]>([])
   const [donations, setDonations] = useState<Donation[]>([])
   const [volunteers, setVolunteers] = useState<Volunteer[]>([])
   const [messages, setMessages] = useState<Message[]>([])
@@ -100,6 +101,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchStats()
+    fetchVolunteerRegionStats()
   }, [])
 
   useEffect(() => {
@@ -123,6 +125,17 @@ export default function AdminDashboard() {
     } catch (error) {
       console.error('Error fetching stats:', error)
       toast.error('Failed to load statistics')
+    }
+  }
+
+  const fetchVolunteerRegionStats = async () => {
+    try {
+      const response = await fetch('/api/admin/volunteers/region-stats')
+      if (!response.ok) throw new Error('Failed to fetch region stats')
+      const data = await response.json()
+      setVolunteerRegionStats(data.regionStats || [])
+    } catch (error) {
+      console.error('Error fetching volunteer region stats:', error)
     }
   }
 
@@ -526,6 +539,132 @@ export default function AdminDashboard() {
                       )}
                     </div>
                   </div>
+                </div>
+
+                {/* Volunteers by Region Pie Chart */}
+                <div className="bg-white rounded-xl border border-gray-200 p-5 lg:p-6 shadow-sm">
+                  <div className="flex items-center justify-between border-b border-gray-100 pb-3 mb-4">
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-800">Volunteers by Region</h3>
+                      <p className="text-sm text-gray-500 mt-0.5">Distribution of volunteers across all regions</p>
+                    </div>
+                    <div className="flex items-center gap-2 bg-red-50 px-3 py-1.5 rounded-lg">
+                      <Users size={16} className="text-red-600" />
+                      <span className="text-sm font-semibold text-red-700">
+                        {volunteerRegionStats.reduce((sum, r) => sum + r.count, 0)} Total
+                      </span>
+                    </div>
+                  </div>
+
+                  {volunteerRegionStats.length > 0 ? (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+                      {/* Pie Chart */}
+                      <div className="h-72">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Pie
+                              data={volunteerRegionStats}
+                              dataKey="count"
+                              nameKey="region"
+                              cx="50%"
+                              cy="50%"
+                              outerRadius={110}
+                              innerRadius={50}
+                              paddingAngle={3}
+                              label={({ region, percent }) =>
+                                percent > 0.05 ? `${(percent * 100).toFixed(0)}%` : ''
+                              }
+                              labelLine={false}
+                            >
+                              {volunteerRegionStats.map((entry, index) => {
+                                const COLORS = [
+                                  '#DC2626', '#1D4ED8', '#16A34A', '#D97706',
+                                  '#7C3AED', '#DB2777', '#0891B2', '#65A30D',
+                                  '#EA580C', '#9333EA', '#0284C7', '#15803D',
+                                  '#B45309', '#BE185D', '#4F46E5', '#0F766E',
+                                ]
+                                return (
+                                  <Cell
+                                    key={`cell-${index}`}
+                                    fill={COLORS[index % COLORS.length]}
+                                    stroke="white"
+                                    strokeWidth={2}
+                                  />
+                                )
+                              })}
+                            </Pie>
+                            <Tooltip
+                              formatter={(value: number, name: string) => [
+                                `${value} volunteer${value !== 1 ? 's' : ''}`,
+                                name,
+                              ]}
+                              contentStyle={{
+                                backgroundColor: '#fff',
+                                borderRadius: '10px',
+                                border: '1px solid #e5e7eb',
+                                boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
+                              }}
+                            />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </div>
+
+                      {/* Region Legend Table */}
+                      <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
+                        {volunteerRegionStats.map((entry, index) => {
+                          const COLORS = [
+                            '#DC2626', '#1D4ED8', '#16A34A', '#D97706',
+                            '#7C3AED', '#DB2777', '#0891B2', '#65A30D',
+                            '#EA580C', '#9333EA', '#0284C7', '#15803D',
+                            '#B45309', '#BE185D', '#4F46E5', '#0F766E',
+                          ]
+                          const total = volunteerRegionStats.reduce((sum, r) => sum + r.count, 0)
+                          const percentage = total > 0 ? ((entry.count / total) * 100).toFixed(1) : '0'
+                          const color = COLORS[index % COLORS.length]
+
+                          return (
+                            <div
+                              key={entry.region}
+                              className="flex items-center justify-between p-2.5 rounded-lg hover:bg-gray-50 transition-colors group"
+                            >
+                              <div className="flex items-center gap-3 min-w-0">
+                                <div
+                                  className="w-3 h-3 rounded-full flex-shrink-0"
+                                  style={{ backgroundColor: color }}
+                                />
+                                <span className="text-sm font-medium text-gray-700 truncate group-hover:text-gray-900">
+                                  {entry.region}
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-3 flex-shrink-0 ml-2">
+                                <div className="w-20 bg-gray-100 rounded-full h-1.5 hidden sm:block">
+                                  <div
+                                    className="h-1.5 rounded-full transition-all"
+                                    style={{
+                                      width: `${percentage}%`,
+                                      backgroundColor: color,
+                                    }}
+                                  />
+                                </div>
+                                <span className="text-xs text-gray-500 w-8 text-right">{percentage}%</span>
+                                <span
+                                  className="text-sm font-bold w-6 text-right"
+                                  style={{ color }}
+                                >
+                                  {entry.count}
+                                </span>
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="h-72 flex flex-col items-center justify-center text-gray-400 gap-3">
+                      <Users size={40} className="text-gray-300" />
+                      <p className="text-sm">No volunteer region data available</p>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
