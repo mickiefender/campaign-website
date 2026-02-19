@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyPaymentStatus, extractDonationId } from '@/lib/hubtel'
+import { sendGratitudeSMS, isSMSConfigured } from '@/lib/hubtel-sms'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -113,6 +114,32 @@ export async function GET(request: NextRequest) {
       }
 
       console.log(`Donation ${donationId} marked as completed (via callback fallback)`)
+
+      // Send gratitude SMS to donor (non-blocking)
+      if (isSMSConfigured() && donation.phone) {
+        console.log('Sending gratitude SMS to donor (fallback):', donation.phone)
+        sendGratitudeSMS(
+          donation.name || 'Supporter',
+          donation.phone,
+          donation.amount
+        ).then((smsResult) => {
+          if (smsResult.success) {
+            console.log('Gratitude SMS sent successfully:', smsResult.messageId)
+          } else {
+            console.error('Failed to send gratitude SMS:', smsResult.error)
+          }
+        }).catch((error) => {
+          console.error('Error sending gratitude SMS:', error)
+        })
+      } else {
+        if (!isSMSConfigured()) {
+          console.warn('SMS service not configured - skipping gratitude SMS')
+        }
+        if (!donation.phone) {
+          console.warn('Donor phone number not available - skipping gratitude SMS')
+        }
+      }
+
       return NextResponse.redirect(
         new URL(`/donate/success?ref=${clientReference}&amount=${donation.amount}`, request.url)
       )
@@ -138,6 +165,32 @@ export async function GET(request: NextRequest) {
       }
 
       console.log(`Donation ${donationId} marked as completed`)
+
+      // Send gratitude SMS to donor (non-blocking)
+      if (isSMSConfigured() && donation.phone) {
+        console.log('Sending gratitude SMS to donor:', donation.phone)
+        sendGratitudeSMS(
+          donation.name || 'Supporter',
+          donation.phone,
+          donation.amount
+        ).then((smsResult) => {
+          if (smsResult.success) {
+            console.log('Gratitude SMS sent successfully:', smsResult.messageId)
+          } else {
+            console.error('Failed to send gratitude SMS:', smsResult.error)
+          }
+        }).catch((error) => {
+          console.error('Error sending gratitude SMS:', error)
+        })
+      } else {
+        if (!isSMSConfigured()) {
+          console.warn('SMS service not configured - skipping gratitude SMS')
+        }
+        if (!donation.phone) {
+          console.warn('Donor phone number not available - skipping gratitude SMS')
+        }
+      }
+
       return NextResponse.redirect(
         new URL(`/donate/success?ref=${clientReference}&amount=${donation.amount}`, request.url)
       )

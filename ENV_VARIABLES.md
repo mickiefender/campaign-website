@@ -38,6 +38,21 @@ HUBTEL_CLIENT_SECRET=your-hubtel-client-secret
 HUBTEL_MERCHANT_ACCOUNT=your-merchant-account-number
 
 # ============================================
+# HUBTEL SMS INTEGRATION (Optional)
+# ============================================
+
+# Hubtel SMS API credentials for sending gratitude messages
+# Get these from your Hubtel SMS account
+# Note: These may be the same as payment credentials or separate
+HUBTEL_SMS_CLIENT_ID=your-hubtel-sms-client-id
+HUBTEL_SMS_CLIENT_SECRET=your-hubtel-sms-client-secret
+
+# SMS Sender ID (the name that appears as sender)
+# Must be registered with Hubtel (max 11 characters)
+# Examples: "DrDwamena", "NPP", "Campaign"
+HUBTEL_SMS_SENDER_ID=DrDwamena
+
+# ============================================
 # NEXT.JS CONFIGURATION
 # ============================================
 
@@ -80,6 +95,12 @@ NODE_ENV=production
 JWT_SECRET=prod-jwt-secret-must-be-very-secure-32plus-chars
 NEXT_PUBLIC_SUPABASE_URL=https://your-prod-project.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=your-prod-service-role-key
+HUBTEL_CLIENT_ID=your-prod-hubtel-client-id
+HUBTEL_CLIENT_SECRET=your-prod-hubtel-client-secret
+HUBTEL_MERCHANT_ACCOUNT=your-prod-merchant-account
+HUBTEL_SMS_CLIENT_ID=your-prod-sms-client-id
+HUBTEL_SMS_CLIENT_SECRET=your-prod-sms-client-secret
+HUBTEL_SMS_SENDER_ID=DrDwamena
 ```
 
 ## Security Best Practices
@@ -168,10 +189,15 @@ JWT_SECRET=a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6
 NEXT_PUBLIC_SUPABASE_URL=https://abcdefghijklmnop.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
-# Hubtel (Optional)
+# Hubtel Payment (Optional)
 HUBTEL_CLIENT_ID=your-client-id
 HUBTEL_CLIENT_SECRET=your-client-secret
 HUBTEL_MERCHANT_ACCOUNT=your-merchant-account
+
+# Hubtel SMS (Optional)
+HUBTEL_SMS_CLIENT_ID=your-sms-client-id
+HUBTEL_SMS_CLIENT_SECRET=your-sms-client-secret
+HUBTEL_SMS_SENDER_ID=DrDwamena
 
 # Environment
 NODE_ENV=development

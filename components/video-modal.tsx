@@ -7,12 +7,32 @@ interface VideoModalProps {
   videoUrl?: string
   title?: string
   onClose?: () => void
+  autoOpen?: boolean // New prop to control auto-opening
 }
 
-export function VideoModal({ videoUrl = '/campaign-video.mp4', title = 'Campaign Message', onClose }: VideoModalProps) {
+export function VideoModal({ videoUrl = '/campaign-video.mp4', title = 'Campaign Message', onClose, autoOpen = false }: VideoModalProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
   const [showButton, setShowButton] = useState(true)
+
+  // Auto-open modal on first visit (using localStorage)
+  useEffect(() => {
+    if (autoOpen && typeof window !== 'undefined') {
+      const hasSeenVideo = localStorage.getItem('campaign-video-seen')
+      
+      if (!hasSeenVideo) {
+        // Delay opening slightly to ensure smooth page load
+        const timer = setTimeout(() => {
+          setIsOpen(true)
+          setShowButton(false)
+          // Mark video as seen
+          localStorage.setItem('campaign-video-seen', 'true')
+        }, 1000) // 1 second delay after page load
+        
+        return () => clearTimeout(timer)
+      }
+    }
+  }, [autoOpen])
 
   // Handle ESC key to close modal
   useEffect(() => {
@@ -130,4 +150,3 @@ export function VideoModal({ videoUrl = '/campaign-video.mp4', title = 'Campaign
     </>
   )
 }
-``

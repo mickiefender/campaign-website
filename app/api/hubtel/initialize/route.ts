@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
     console.log('ClientReference length:', clientReference.length)
 
     // Initialize Hubtel transaction
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://drdwamenaelections.org/'
     const hubtelPayload = {
       totalAmount: amount, // Amount is already in cedis
       description: `Campaign Donation - ${isAnonymous ? 'Anonymous' : fullName}`,

@@ -466,38 +466,140 @@ group"
 
 
 
-      {/* Vision Section */}
-      <section className="max-w-7xl mx-auto px-4 py-16 md:py-20">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 animate-expand-width">Our Vision for Ghana</h2>
-        <p className="text-center text-muted-foreground text-base md:text-lg mb-12 max-w-3xl mx-auto animate-fade-in-up px-2" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
-          Dr. Charles Dwamena's vision encompasses six pillars that will transform Ghana into a beacon of progress and prosperity.
-        </p>
+      {/* Vision Section - Premium Layout */}
+      <section className="max-w-7xl mx-auto px-4 py-16 md:py-24 bg-white">
+        <style>{`
+          .vision-icon-circle {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+          }
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6">
-          {visionData.map((vision, idx) => (
-            <div 
-              key={vision.id} 
-              onClick={() => handleVisionClick(vision)}
-              className="animate-bounce-in bg-white rounded-2xl p-6 md:p-8 border border-gray-200 hover:border-gray-400 transition transform hover:-translate-y-2 hover:shadow-xl group cursor-pointer"
-              style={{ animationDelay: `${idx * 0.1}s`, animationFillMode: 'both' }}
-            >
-              <div className={`w-14 h-14 md:w-16 md:h-16 ${vision.color} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition`}>
-                {vision.icon}
-              </div>
-              <h3 className="text-lg md:text-xl font-bold mb-2 text-gray-800 group-hover:text-gray-900 transition">{vision.title}</h3>
-              <p className="text-sm md:text-base text-gray-600 group-hover:text-gray-700 transition line-clamp-2">{vision.desc}</p>
-            </div>
-          ))}
+          .vision-icon-red {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+          }
+
+          .vision-icon-blue {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+          }
+
+          .vision-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 24px;
+            background: white;
+            border: none;
+            position: relative;
+            overflow: hidden;
+          }
+
+          .vision-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            border-radius: 24px;
+            transition: all 0.3s ease;
+          }
+
+          .vision-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+          }
+        `}</style>
+
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            Our Vision for Ghana
+          </h2>
+          <p className="text-center text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
+            Dr. Charles Dwamena's comprehensive vision for national transformation
+          </p>
         </div>
 
-        <div className="text-center mt-12 animate-fade-in-up" style={{ animationDelay: '0.4s', animationFillMode: 'both' }}>
-          <Link
-            href="/vision"
-            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-lg font-semibold hover:bg-primary/90 transition transform hover:scale-105"
-            onClick={() => setIsLoading(true)}
-          >
-            Learn More <ArrowRight size={18} />
-          </Link>
+        {/* Main Vision Layout - Image Left, Cards Right */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+          
+          {/* Left Side - Image */}
+          <div className="flex justify-center animate-fade-in-left">
+            <div className="relative w-full max-w-sm">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                <Image
+                  src="/image/giant-elephant.png"
+                  alt="Dr. Charles Dwamena Vision"
+                  width={400}
+                  height={500}
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+              {/* Decorative element */}
+              <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-red-500/10 rounded-full blur-3xl"></div>
+              <div className="absolute -top-6 -left-6 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl"></div>
+            </div>
+          </div>
+
+          {/* Right Side - Vision Cards */}
+          <div className="space-y-4 animate-fade-in-right">
+            {visionData.map((vision, idx) => (
+              <div
+                key={vision.id}
+                onClick={() => handleVisionClick(vision)}
+                className="vision-card p-5 md:p-6 group"
+                style={{
+                  background: 'white',
+                  '--card-color': idx % 2 === 0 ? '#ef4444' : '#3b82f6',
+                  animationDelay: `${idx * 0.1}s`,
+                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.08)'
+                } as React.CSSProperties}
+              >
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '4px',
+                  background: idx % 2 === 0 ? '#ef4444' : '#3b82f6',
+                  borderRadius: '24px 24px 0 0'
+                }}></div>
+                <div className="flex items-start gap-4 pt-1">
+                  {/* Icon Circle */}
+                  <div
+                    className={`vision-icon-circle flex-shrink-0 mt-1 ${
+                      idx % 2 === 0 ? 'vision-icon-red' : 'vision-icon-blue'
+                    }`}
+                  >
+                    {idx + 1}
+                  </div>
+
+                  {/* Card Content */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition">
+                      {vision.title}
+                    </h3>
+                    <p className="text-sm md:text-base text-gray-600 group-hover:text-gray-800 transition">
+                      {vision.desc}
+                    </p>
+                  </div>
+
+                  {/* Arrow Icon */}
+                  <ArrowRight
+                    size={20}
+                    className="text-gray-400 flex-shrink-0 mt-1 group-hover:text-red-500 group-hover:translate-x-1 transition-all"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
