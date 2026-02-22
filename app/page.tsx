@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Heart, Users, Newspaper, ArrowRight, BookOpen, TrendingUp, Stethoscope, Building2, Leaf, Handshake } from 'lucide-react'
+import { Heart, Users, Newspaper, ArrowRight, BookOpen, TrendingUp, Stethoscope, Building2, Leaf, Handshake, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import TypingName from '@/components/typing-name'
 import RouteLoader from '@/components/route-loader'
@@ -10,11 +10,14 @@ import { FlagAnimation } from '@/components/svg-animations'
 import { VideoModal } from '@/components/video-modal'
 import { VisionModal } from '@/components/vision-modal'
 import { GhanaMap } from '@/components/ghana-map'
+import { AchievementTabs } from '@/components/achievement-tabs'
+import { Footer } from '@/components/footer'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
   const [selectedVision, setSelectedVision] = useState<any>(null)
   const [isVisionModalOpen, setIsVisionModalOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   const visionData = [
     {
@@ -91,56 +94,101 @@ export default function Home() {
         title="Dr. Charles Dwamena's Campaign Message"
       />
 
+      
       {/* Header - Fixed Above Everything */}
-      <header className="fixed top-0 left-0 right-0 z-50 
+<header className="fixed top-0 left-0 right-0 z-50 
 bg-gradient-to-b  
 backdrop-blur-md 
 py-4 px-4 md:py-5">
 
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-         <div className="flex items-center">
-  <Image
-    src="/image/campaign-logo1.png"
-    alt="Dr Dwamena Logo"
-    width={150}
-    height={50}
-    className="object-contain"
-    priority
-  />
-</div>
+  <div className="max-w-7xl mx-auto flex items-center justify-between">
 
-          <nav className="hidden sm:flex items-center gap-4 md:gap-8">
-            <Link href="#" className="text-white text-sm md:text-base hover:text-primary transition duration-300 font-medium">Home</Link>
-            <Link href="#" className="text-white text-sm md:text-base hover:text-primary transition duration-300 font-medium">About</Link>
-            <Link href="#" className="text-white text-sm md:text-base hover:text-primary transition duration-300 font-medium">Vision</Link>
-            <Link href="#" className="text-white text-sm md:text-base hover:text-primary transition duration-300 font-medium">Contact</Link>
-          </nav>
-         
-        </div>
-      </header>
+    {/* Logo */}
+    <div className="flex items-center">
+      <Image
+        src="/image/campaign-logo1.png"
+        alt="Dr Dwamena Logo"
+        width={150}
+        height={50}
+        className="object-contain"
+        priority
+      />
+    </div>
 
-      {/* Hero Section with Flag Background */}
-      {/* Hero Section with Flag Background */}
-<section className="relative pt-24 min-h-screen flex items-center overflow-hidden">
+    {/* Desktop Nav */}
+    <nav className="hidden sm:flex items-center gap-4 md:gap-8">
+      <Link href="/" className="text-blue-900 text-sm md:text-base hover:text-primary transition duration-300 font-medium">Home</Link>
+      <Link href="#about" className="text-blue-900 text-sm md:text-base hover:text-primary transition duration-300 font-medium">About</Link>
+      <Link href="#vision" className="text-blue-900 text-sm md:text-base hover:text-primary transition duration-300 font-medium">Vision</Link>
+      <Link href="/contact" className="text-blue-900 text-sm md:text-base hover:text-primary transition duration-300 font-medium">Contact</Link>
+    </nav>
 
-  {/* Background */}
-  <div className="absolute inset-0 z-0">
-    <Image
-      src="/gif/flag_gif.gif"
-      alt="NPP Flag Background"
-      fill
-      className="object-cover blur-md scale-110"
-      priority
-    />
-    <div className="absolute inset-0 bg-black/30" />
+    {/* Mobile Hamburger */}
+    <button
+      onClick={() => setMobileOpen(!mobileOpen)}
+      className="sm:hidden text-blue-900"
+      aria-label="Toggle menu"
+    >
+      {mobileOpen ? <X size={28} /> : <Menu size={28} />}
+    </button>
   </div>
 
-  {/* Embedded Styles */}
+  {/* Mobile Menu Dropdown */}
+  <div
+    className={`sm:hidden overflow-hidden transition-all duration-300 ${
+      mobileOpen ? 'max-h-96 mt-4' : 'max-h-0'
+    }`}
+  >
+    <div className="bg-black/80 backdrop-blur-xl rounded-xl p-4 flex flex-col gap-4">
+
+      <Link
+        href="/"
+        onClick={() => setMobileOpen(false)}
+        className="text-white font-medium hover:text-primary transition"
+      >
+        Home
+      </Link>
+
+      <Link
+        href="#about"
+        onClick={() => setMobileOpen(false)}
+        className="text-white font-medium hover:text-primary transition"
+      >
+        About
+      </Link>
+
+      <Link
+        href="#vision"
+        onClick={() => setMobileOpen(false)}
+        className="text-white font-medium hover:text-primary transition"
+      >
+        Vision
+      </Link>
+
+      <Link
+        href="/contact"
+        onClick={() => setMobileOpen(false)}
+        className="text-white font-medium hover:text-primary transition"
+      >
+        Contact
+      </Link>
+
+    </div>
+  </div>
+</header>
+     
+     {/* Hero Section — Clean White Background */}
+<section className="relative pt-24 min-h-screen flex items-center overflow-hidden bg-white">
+
+  {/* Optional subtle gradient */}
+  <div className="absolute inset-0 -z-10 bg-gradient-to-b from-gray-50 via-white to-white" />
+
+  {/* Embedded Card Styles */}
   <style>{`
     .contestant-card {
       width: clamp(350px, 40vw, 520px);
       height: clamp(450px, 60vw, 650px);
-      background: #ffffff;
+      background: #ac8da6;
       position: relative;
       display: flex;
       place-content: center;
@@ -149,6 +197,7 @@ py-4 px-4 md:py-5">
       border-radius: 24px;
       animation: bounce-in 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
       transition: transform 0.4s ease;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.12);
     }
 
     .contestant-card::before {
@@ -172,7 +221,7 @@ py-4 px-4 md:py-5">
     .contestant-card::after {
       content: '';
       position: absolute;
-      background: #07182E;
+      background: #000000;
       inset: 6px;
       border-radius: 18px;
     }
@@ -201,56 +250,50 @@ py-4 px-4 md:py-5">
   <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
     <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-16">
 
-      {/* LEFT SIDE - TEXT */}
-      <div className="lg:w-1/2 text-center lg:text-left text-white animate-fade-in-up">
+      {/* LEFT SIDE */}
+      <div className="lg:w-1/2 text-center lg:text-left text-gray-900 animate-fade-in-up">
 
         <TypingName />
 
-       {/* NPP Campaign Badge */}
-<div className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-full bg-white border border-gray-200 shadow-sm mb-6">
-  <span className="text-sm md:text-base font-bold">
-    <span className="text-red-600">FOR NPP</span>
-    <span className="text-gray-400 mx-2">•</span>
-    <span className="text-blue-600">GENERAL SECRETARY</span>
-  </span>
-</div>
+        {/* Campaign Badge */}
+        <div className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-full bg-white border border-gray-200 shadow-sm mb-6">
+          <span className="text-sm md:text-base font-bold">
+            <span className="text-red-600">FOR NPP</span>
+            <span className="text-gray-400 mx-2">•</span>
+            <span className="text-blue-600">GENERAL SECRETARY-2028</span>
+          </span>
+        </div>
 
+        {/* Donation CTA */}
+        <div className="mt-8 p-6 rounded-xl bg-white border border-gray-200 shadow-lg">
+          <p className="text-gray-900 font-semibold mb-2">Support Our Vision</p>
 
-{/* Donation CTA */}
-<div className="mt-8 p-6 rounded-xl bg-white border border-gray-200 shadow-lg">
-  <p className="text-gray-900 font-semibold mb-2">Support Our Vision</p>
+          <p className="text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-red-500 to-blue-500 bg-clip-text mb-3">
+            Dial <span className="font-mono">*713*2028#</span> to Donate
+          </p>
 
-  <p className="text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-red-500 to-blue-500 bg-clip-text mb-3">
-    Dial <span className="font-mono">*713*2028#</span> to Donate
-  </p>
+          <p className="text-sm text-gray-600">
+            Every contribution empowers our movement for national transformation
+          </p>
 
-  <p className="text-sm text-gray-600">
-    Every contribution empowers our movement for national transformation
-  </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-6">
+            <Link
+              href="/donate"
+              className="bg-gray-900 text-white font-semibold px-6 py-3 rounded-xl shadow-md hover:bg-black active:scale-95 transition-all duration-300 w-full sm:w-auto text-center"
+            >
+              Donate Now
+            </Link>
 
-  {/* Buttons Area */}
-  <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-6">
-    <button className="bg-white text-gray-900 font-semibold px-6 py-3 rounded-xl shadow-md border border-gray-200 hover:bg-gray-50 hover:shadow-lg active:scale-95 transition-all duration-300 w-full sm:w-auto">
-     <a href="/donate">Donate Now</a>
-    </button>
-
-    <button className="bg-white text-gray-900 font-semibold px-6 py-3 rounded-xl shadow-md border border-gray-200 hover:bg-gray-50 hover:shadow-lg active:scale-95 transition-all duration-300 w-full sm:w-auto">
-      Learn More
-    </button>
-  </div>
-</div>
-
-<div className="flex flex-col lg:flex-row items-center justify-between gap-16 mt-8">
-</div>
-
+            
+          </div>
+        </div>
       </div>
 
-
-      {/* RIGHT SIDE - IMAGE */}
+      {/* RIGHT SIDE */}
       <div className="lg:w-1/2 flex justify-center lg:justify-end relative">
 
-        {/* Glow Effect */}
-        <div className="absolute -z-10 w-96 h-96 bg-blue-500/20 blur-3xl rounded-full"></div>
+        {/* Soft glow */}
+        <div className="absolute -z-10 w-96 h-96 bg-blue-500/10 blur-3xl rounded-full" />
 
         <div className="contestant-card">
           <div className="contestant-card-image">
@@ -269,79 +312,51 @@ py-4 px-4 md:py-5">
   </div>
 </section>
 
+      <section className="relative py-20 px-4 -translate-y">
+  <div className="max-w-7xl mx-auto">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
 
-      {/* Support Cards Section - Removed Background Image */}
-      <section className="relative py-20 -translate-y-24 px-4">
-        <div className="relative z-10 max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {/* Donate Card */}
-            <div className="animate-slide-in-left bg-blue-800/20 
-backdrop-blur-xl 
-border border-white/10
- rounded-xl p-6 md:p-8 border-2 border-primary/30 hover:border-primary transition text-center backdrop-blur-sm transform hover:-translate-y-2 hover:shadow-2xl group" style={{ animationDelay: '0s', animationFillMode: 'both' }}>
-              <div className="w-14 h-14 md:w-16 md:h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:animate-pulse-glow group-hover:bg-primary/40 transition">
-                <Heart className="text-primary group-hover:scale-110 transition" size={28} />
-              </div>
-              <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3">Donate</h3>
-              <p className="text-sm md:text-base text-muted-foreground mb-6">Support Dr. Charles Dwamena's vision for Ghana. Every contribution counts towards building a better future.</p>
-              <Link
-                href="/donate"
-                className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition group"
-                onClick={() => setIsLoading(true)}
-              >
-                Donate Now <ArrowRight size={18} className="group-hover:translate-x-1 transition" />
-              </Link>
-            </div>
+     
 
-            {/* Join Team Card */}
-            <div className="animate-zoom-in 
-bg-red-800/20 
-backdrop-blur-xl 
-rounded-xl 
-p-6 md:p-8 
-border border-white/10 
-shadow-lg shadow-blue-900/20 
-hover:shadow-blue-500/30 
-transition 
-text-center 
-transform hover:-translate-y-2 hover:shadow-2xl 
-group"
- style={{ animationDelay: '0.15s', animationFillMode: 'both' }}>
-              <div className="w-14 h-14 md:w-16 md:h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:animate-pulse-glow group-hover:bg-accent/40 transition">
-                <Users className="text-accent group-hover:scale-110 transition" size={28} />
-              </div>
-              <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3">Join Our Team</h3>
-              <p className="text-sm md:text-base text-muted-foreground mb-6">Become a volunteer and be part of this historic movement. Your skills and passion can transform communities.</p>
-              <Link
-                href="/volunteer"
-                className="inline-flex items-center gap-2 text-accent font-semibold hover:gap-3 transition group"
-                onClick={() => setIsLoading(true)}
-              >
-                Volunteer <ArrowRight size={18} className="group-hover:translate-x-1 transition" />
-              </Link>
-            </div>
-
-            {/* Stay Informed Card */}
-            <div className="animate-slide-in-right bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-6 md:p-8 border-2 border-primary/30 hover:border-primary transition text-center backdrop-blur-sm transform hover:-translate-y-2 hover:shadow-2xl group" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
-              <div className="w-14 h-14 md:w-16 md:h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:animate-pulse-glow group-hover:bg-primary/40 transition">
-                <Newspaper className="text-primary group-hover:scale-110 transition" size={28} />
-              </div>
-              <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3">Stay Informed</h3>
-              <p className="text-sm md:text-base text-muted-foreground mb-6">Keep up with the latest news, updates, and announcements from the campaign trail.</p>
-              <Link
-                href="/news"
-                className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition group"
-                onClick={() => setIsLoading(true)}
-              >
-                Read News <ArrowRight size={18} className="group-hover:translate-x-1 transition" />
-              </Link>
-            </div>
-          </div>
+      {/* Join Team Card */}
+      <div className="bg-red-600 text-white rounded-xl p-6 md:p-8 shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition group">
+        <div className="w-14 h-14 md:w-16 md:h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:animate-pulse-glow group-hover:bg-white/40 transition">
+          <Users className="text-white group-hover:scale-110 transition" size={28} />
         </div>
-      </section>
+        <h3 className="text-xl md:text-2xl font-bold mb-3">Join Our Team</h3>
+        <p className="text-sm md:text-base mb-6">
+          Become a volunteer and be part of this historic movement. Your skills and passion can transform communities.
+        </p>
+        <Link
+          href="/volunteer"
+          className="inline-flex items-center gap-2 font-semibold hover:gap-3 transition group"
+        >
+          Volunteer <ArrowRight size={18} className="group-hover:translate-x-1 transition" />
+        </Link>
+      </div>
 
+      {/* Stay Informed Card */}
+      <div className="bg-blue-500 text-white rounded-xl p-6 md:p-8 shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition group">
+        <div className="w-14 h-14 md:w-16 md:h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:animate-pulse-glow group-hover:bg-white/40 transition">
+          <Newspaper className="text-white group-hover:scale-110 transition" size={28} />
+        </div>
+        <h3 className="text-xl md:text-2xl font-bold mb-3">Send Message</h3>
+        <p className="text-sm md:text-base mb-6">
+          Have questions or want to share your ideas? Send us a message and let's start a conversation about our future.
+        </p>
+        <Link
+          href="/news"
+          className="inline-flex items-center gap-2 font-semibold hover:gap-3 transition group"
+        >
+          Send Message <ArrowRight size={18} className="group-hover:translate-x-1 transition" />
+        </Link>
+      </div>
+
+    </div>
+  </div>
+</section>
       {/* About Section - Modern Design */}
-      <section className="relative py-20 px-4 overflow-hidden bg-white">
+      <section id='about' className="relative py-20 px-4 overflow-hidden bg-white">
         <style>{`
           .circular-main {
             width: clamp(280px, 35vw, 400px);
@@ -456,16 +471,12 @@ group"
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed">
                   Dr. Charles Dwamena is a visionary leader with decades of experience in public service, an aluminary in Finance and Administration. Born and raised in Ghana, he understands the unique challenges facing our nation and is committed to delivering real solutions.
                 </p>
-                <p className="text-base md:text-lg text-gray-600 leading-relaxed">
-                  MSc Clinical Sciences (Otolaryngology–ENT), Plymouth University
-• Master of Business Administration (Leadership and Sustainability), MBA – University of Cumbria
-• Bachelor of Medicine, Bachelor of Surgery (MBBS) – Wenzhou Medical University
-• Teaching Certificate, CELTA – Cambridge University
-                </p>
               </div>
 
-              
-            
+              {/* Achievement Tabs */}
+              <div className="mb-8">
+                <AchievementTabs />
+              </div>
 
               {/* CTA Button */}
               <Link
@@ -483,7 +494,7 @@ group"
 
 
       {/* Vision Section - Premium Layout */}
-      <section className="max-w-7xl mx-auto px-4 py-16 md:py-24 bg-white">
+      <section id='vision' className="max-w-7xl mx-auto px-4 py-16 md:py-24 bg-white">
         <style>{`
           .vision-icon-circle {
             width: 56px;
@@ -736,31 +747,8 @@ group"
   </div>
 </section>
 
-      {/* Final CTA Section */}
-      <section className="section-animate bg-primary text-primary-foreground py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-6 animate-fade-in-up">Join the Movement</h2>
-          <p className="text-lg mb-12 text-primary-foreground/90 animate-fade-in-up" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
-            Together, we can build a Ghana where opportunity, prosperity, and peace are within reach for all citizens.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
-            <Link
-              href="/donate"
-              className="bg-white text-primary px-8 py-4 rounded-lg font-semibold hover:bg-white/90 transition transform hover:scale-105"
-              onClick={() => setIsLoading(true)}
-            >
-              Contribute Now
-            </Link>
-            <Link
-              href="/volunteer"
-              className="border-2 border-white text-white hover:bg-white/10 px-8 py-4 rounded-lg font-semibold transition transform hover:scale-105"
-              onClick={() => setIsLoading(true)}
-            >
-              Become a  Volunteer
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* Footer */}
+      <Footer />
     </div>
   )
 }

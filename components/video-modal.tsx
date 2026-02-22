@@ -15,22 +15,16 @@ export function VideoModal({ videoUrl = '/campaign-video.mp4', title = 'Campaign
   const [isClosing, setIsClosing] = useState(false)
   const [showButton, setShowButton] = useState(true)
 
-  // Auto-open modal on first visit (using localStorage)
+  // Auto-open modal on every page load
   useEffect(() => {
     if (autoOpen && typeof window !== 'undefined') {
-      const hasSeenVideo = localStorage.getItem('campaign-video-seen')
+      // Delay opening slightly to ensure smooth page load
+      const timer = setTimeout(() => {
+        setIsOpen(true)
+        setShowButton(false)
+      }, 500) // 500ms delay after page load
       
-      if (!hasSeenVideo) {
-        // Delay opening slightly to ensure smooth page load
-        const timer = setTimeout(() => {
-          setIsOpen(true)
-          setShowButton(false)
-          // Mark video as seen
-          localStorage.setItem('campaign-video-seen', 'true')
-        }, 1000) // 1 second delay after page load
-        
-        return () => clearTimeout(timer)
-      }
+      return () => clearTimeout(timer)
     }
   }, [autoOpen])
 
