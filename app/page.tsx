@@ -115,6 +115,13 @@ py-4 px-4 md:py-5">
       />
     </div>
 
+    {/* Mobile GS-2028 Badge */}
+    <div className="sm:hidden flex items-center gap-0.5 bg-white px-3 py-1.5 rounded-full shadow-sm border border-gray-100">
+      <span className="text-red-600 font-extrabold text-sm">General Secretary</span>
+      <span className="text-gray-400 text-sm">-</span>
+      <span className="text-blue-600 font-extrabold text-sm">2028</span>
+    </div>
+
     {/* Desktop Nav */}
     <nav className="hidden sm:flex items-center gap-4 md:gap-8">
       <Link href="/" className="text-blue-900 text-sm md:text-base hover:text-primary transition duration-300 font-medium">Home</Link>
