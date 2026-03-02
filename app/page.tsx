@@ -22,51 +22,51 @@ export default function Home() {
   const visionData = [
     {
       id: 1,
-      title: 'Quality Education',
-      desc: 'Ensuring every child has access to world-class education and skills training.',
+      title: 'Leadership Restoration',
+      desc: 'Restore Leadership that is disciplined, and politically matured.',
       icon: <BookOpen className="text-white" size={24} />,
       color: 'bg-purple-500',
-      details: 'We are committed to revolutionizing Ghana\'s educational system by building modern schools, training qualified teachers, and ensuring that every child, regardless of their socioeconomic background, has access to quality education. This includes vocational training programs and digital literacy initiatives to prepare our youth for the future.'
+      details: 'We believe in restoring Ghanaian leadership by providing opportunities for young people to learn and grow, and for experienced leaders to find their place in the political arena.'
     },
     {
       id: 2,
-      title: 'Economic Growth',
-      desc: 'Creating jobs and supporting entrepreneurship across all sectors.',
+      title: 'Firm and Decisive Leadership',
+      desc: 'Provide firm and decisive leadership characterized by consultation and engagement.',
       icon: <TrendingUp className="text-white" size={24} />,
       color: 'bg-red-500',
-      details: 'Our economic strategy focuses on job creation, small business support, and attracting foreign investment. We will establish business incubation centers, provide microfinance for entrepreneurs, and develop key sectors like agriculture, manufacturing, and technology to drive sustainable economic growth.'
+      details: 'Our vision is to provide firm and decisive leadership that is characterized by consultation and engagement with all stakeholders. We will ensure that our leaders are accountable, transparent, and responsive to the needs of the people.'
     },
     {
       id: 3,
-      title: 'Healthcare for All',
-      desc: 'Building accessible, affordable, and quality healthcare services.',
-      icon: <Stethoscope className="text-white" size={24} />,
+      title: 'Good Decisions',
+      desc: 'Ensure that all decisions are based on research an sound judgement.',
+      icon: <Newspaper className="text-white" size={24} />,
       color: 'bg-cyan-500',
-      details: 'We envision a Ghana where every citizen has access to affordable, quality healthcare. This includes establishing healthcare facilities in rural areas, providing preventive care programs, improving maternal and child health services, and ensuring essential medicines are accessible to all Ghanaians.'
+      details: 'Our vision is to ensure that all decisions are based on research and sound judgement. We will invest in data collection and analysis, and we will ensure that our leaders have access to the information they need to make informed decisions.'
     },
     {
       id: 4,
-      title: 'Infrastructure',
-      desc: 'Developing roads, electricity, water, and digital infrastructure nationwide.',
-      icon: <Building2 className="text-white" size={24} />,
+      title: 'Leader That Create Enabling Environment',
+      desc: 'Provide Leadership that create enabling environment for all executive officers whether elected or appointed to play their roles. ',
+      icon: <Users className="text-white" size={24} />,
       color: 'bg-yellow-500',
-      details: 'Infrastructure development is crucial for national progress. We will invest in modern road networks, reliable electricity supply, clean water systems, and high-speed internet connectivity across all regions. This will enhance connectivity between communities and drive economic development.'
+      details: 'We believe in providing leadership that creates an enabling environment for all executive officers, whether elected or appointed, to play their roles effectively. We will ensure that our leaders have the resources and support they need to make a difference.'
     },
     {
       id: 5,
-      title: 'Environmental Care',
-      desc: 'Protecting our environment while pursuing sustainable development.',
+      title: 'Leader That is in Touch with the People',
+      desc: 'Provide Leadership that is in touch with the people by visiting all the constituencies across the length and breadth of this country and not be an armchair General Secretary.',
       icon: <Leaf className="text-white" size={24} />,
       color: 'bg-green-500',
-      details: 'Sustainability is at the core of our vision. We are committed to environmental conservation, combating climate change, protecting our forests and water bodies, and promoting renewable energy. We will balance development with environmental protection for future generations.'
+      details: 'We will provide leadership that is in touch with the people by visiting all the constituencies across the length and breadth of this country and not be an armchair General Secretary. We will ensure that our leaders are accessible and responsive to the needs of the people.'
     },
     {
       id: 6,
-      title: 'Social Cohesion',
-      desc: 'Building unity, peace, and mutual respect across all communities.',
+      title: 'Leader That Prioritizes the Welfare of Party Members',
+      desc: 'Provide Leadership that prioritizes the welfare of party members. This can be achieved through the comprehensive implementation of the policies such as the Business Incubation Fund; The Human Resource Empowerment Program; Rebust Welfare Fund for party members; Support to Former Executive Memebers; Support to Incumbent Executive Members; TESCON Secretariats and External Branch Secretariats. ',
       icon: <Handshake className="text-white" size={24} />,
       color: 'bg-pink-500',
-      details: 'A united Ghana is a strong Ghana. We will promote social harmony, strengthen community bonds, support cultural exchange, and ensure equal opportunities for all citizens regardless of ethnicity or religion. Peace and unity are the foundation of national progress.'
+      details: 'We will provide leadership that prioritizes the welfare of party members. This can be achieved through the comprehensive implementation of policies such as the Business Incubation Fund, the Human Resource Empowerment Program, a robust Welfare Fund for party members, support to former executive members, support to incumbent executive members, TESCON secretariats, and external branch secretariats.'
     },
   ]
 
@@ -305,7 +305,7 @@ py-4 px-4 md:py-5">
         <div className="contestant-card">
           <div className="contestant-card-image">
             <Image
-              src="/image/Dr.China-Npp background.png"
+              src="/image/Dr.China white shirt.png"
               alt="Dr. Charles Dwamena"
               fill
               className="object-cover"
@@ -440,10 +440,7 @@ py-4 px-4 md:py-5">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             {/* Left - Images Section */}
             <div className="relative h-96 md:h-full flex items-center justify-center animate-fade-in-left">
-              {/* Curve decorations */}
-              <div className="curve-accent curve-top"></div>
-              <div className="curve-accent curve-bottom"></div>
-
+              
               {/* Main circular image */}
               <div className="circular-main relative">
                 <Image
@@ -557,7 +554,7 @@ py-4 px-4 md:py-5">
             Our Vision for Ghana
           </h2>
           <p className="text-center text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
-            Dr. Charles Dwamena's comprehensive vision for national transformation
+            Dr. Charles Dwamena seeks the office of General Secretary so as to:
           </p>
         </div>
 

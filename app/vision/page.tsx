@@ -4,8 +4,8 @@ export default function Vision() {
   const pillars = [
     {
       icon: BookOpen,
-      title: 'Quality Education',
-      description: 'Provide free quality education from primary to tertiary level. Improve teacher training and school infrastructure across all regions.',
+      title: 'Leadership Restoration',
+      description: 'Restore Leadership that is disciplined, and politically matured.',
       points: ['Free primary & secondary education', 'Modern STEM facilities', 'Digital learning platforms', 'Teacher capacity building'],
     },
     {

@@ -106,8 +106,8 @@ export function AchievementTabs() {
               <BookOpen className="text-white" size={24} />
             </div>
             <div className="text-left">
-              <h3 className="text-lg font-bold text-gray-900">See Educational Qualifications</h3>
-              <p className="text-sm text-gray-600">4 degrees and certifications</p>
+              <h3 className="text-lg font-bold text-gray-900">Academic Background of Dr. Charles Dwamena</h3>
+              
             </div>
           </div>
           <ChevronDown
@@ -151,8 +151,8 @@ export function AchievementTabs() {
               <Award className="text-white" size={24} />
             </div>
             <div className="text-left">
-              <h3 className="text-lg font-bold text-gray-900">Political Achievements</h3>
-              <p className="text-sm text-gray-600">Leadership milestones</p>
+              <h3 className="text-lg font-bold text-gray-900">Leadershop and Political Background of Dr. Charles Dwamena</h3>
+             
             </div>
           </div>
           <ChevronDown
