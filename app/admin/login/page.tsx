@@ -1,7 +1,7 @@
 'use client'
 export const dynamic = 'force-dynamic'
 
-import { useState, FormEvent, Suspense } from 'react'
+import { useState, FormEvent } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Lock, AlertCircle, Mail, Eye, EyeOff } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -26,9 +26,7 @@ function LoginForm() {
     try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       })
 
@@ -43,7 +41,7 @@ function LoginForm() {
       const redirect = searchParams.get('redirect') || '/admin'
       router.push(redirect)
       router.refresh()
-    } catch (err) {
+    } catch {
       setError('An error occurred. Please try again.')
       setIsLoading(false)
     }
@@ -51,7 +49,6 @@ function LoginForm() {
 
   return (
     <div className="w-full max-w-md">
-      {/* Header */}
       <div className="text-center mb-8">
         <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
           <Lock className="text-primary" size={32} />
@@ -62,18 +59,13 @@ function LoginForm() {
         </p>
       </div>
 
-      {/* Login Form */}
       <div className="bg-card border border-border rounded-lg p-8 shadow-lg">
         <form onSubmit={handleSubmit} className="space-y-6">
-          
           {/* Email */}
           <div className="space-y-2">
             <Label htmlFor="email">Email Address</Label>
             <div className="relative">
-              <Mail
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"
-                size={18}
-              />
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={18} />
               <Input
                 id="email"
                 type="email"
@@ -92,10 +84,7 @@ function LoginForm() {
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
             <div className="relative">
-              <Lock
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"
-                size={18}
-              />
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={18} />
               <Input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
@@ -106,8 +95,6 @@ function LoginForm() {
                 disabled={isLoading}
                 className="w-full pl-10 pr-10"
               />
-
-              {/* Toggle Password Visibility */}
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -128,39 +115,10 @@ function LoginForm() {
             </div>
           )}
 
-          {/* Submit Button */}
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isLoading || !email || !password}
-          >
-            {isLoading ? (
-              <span className="flex items-center gap-2">
-                <span className="animate-spin">⏳</span>
-                Logging in...
-              </span>
-            ) : (
-              'Login'
-            )}
+          <Button type="submit" className="w-full" disabled={isLoading || !email || !password}>
+            {isLoading ? 'Logging in...' : 'Login'}
           </Button>
         </form>
-
-        {/* Footer Note */}
-        <div className="mt-6 pt-6 border-t border-border">
-          <p className="text-sm text-muted-foreground text-center">
-            <span className="block mb-2">
-              Admin credentials are stored securely in the database
-            </span>
-            <span className="text-xs">
-              Contact system administrator for access
-            </span>
-          </p>
-        </div>
-      </div>
-
-      {/* Page Footer */}
-      <div className="text-center mt-8 text-sm text-muted-foreground">
-        <p>NPP Campaign Admin • Secure Access</p>
       </div>
     </div>
   )
@@ -169,19 +127,7 @@ function LoginForm() {
 export default function AdminLogin() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted flex items-center justify-center p-4">
-      <Suspense
-        fallback={
-          <div className="w-full max-w-md text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
-              <Lock className="text-primary" size={32} />
-            </div>
-            <h1 className="text-3xl font-bold mb-2">Admin Login</h1>
-            <p className="text-muted-foreground">Loading...</p>
-          </div>
-        }
-      >
-        <LoginForm />
-      </Suspense>
+      <LoginForm />
     </div>
   )
 }
