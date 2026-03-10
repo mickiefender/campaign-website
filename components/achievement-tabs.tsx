@@ -151,7 +151,7 @@ export function AchievementTabs() {
               <Award className="text-white" size={24} />
             </div>
             <div className="text-left">
-              <h3 className="text-lg font-bold text-gray-900">Leadershop and Political Background of Dr. Charles Dwamena</h3>
+              <h3 className="text-lg font-bold text-gray-900">Leadership and Political Background of Dr. Charles Dwamena</h3>
              
             </div>
           </div>

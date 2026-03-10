@@ -44,7 +44,7 @@ export default function TypingName() {
   }, [displayText, isDeleting])
 
   return (
-    <h1 className="text-5xl md:text-7xl font-bold text-blue-900 mb-4 text-balance drop-shadow-lg min-h-24 flex items-center justify-center">
+    <h1 className="font-bold text-blue-900 mb-4 text-balance drop-shadow-lg min-h-24 flex items-center justify-center text-3xl">
       <span className="inline-block border-r-4 border-white pr-2 pb-2">
         {displayText}
       </span>

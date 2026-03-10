@@ -86,6 +86,25 @@ export default function Home() {
 
   return (
     <div className="w-full">
+      {/* Scrolling Marquee - Before Header */}
+      <div className="fixed top-0 left-0 right-0 z-[60] bg-red-600 text-white py-2 overflow-hidden">
+        <style>{`
+          @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+          }
+          .marquee-text {
+            animation: marquee 20s linear infinite;
+            white-space: nowrap;
+          }
+        `}</style>
+        <div className="marquee-text">
+          <span className="text-lg md:text-xl font-bold mx-8">
+           Rebuilding to restore the main love !!!•       Rebuilding to restore the main love!!! •    Rebuilding to restore the main love!!! •    Rebuilding to restore the main love!!!
+          </span>
+        </div>
+      </div>
+      
       {isLoading && <RouteLoader />}
       
       {/* Video Modal - Displays on page load and every refresh */}
@@ -96,7 +115,7 @@ export default function Home() {
 
       
       {/* Header - Fixed Above Everything */}
-<header className="fixed top-0 left-0 right-0 z-50 
+<header className="fixed top-[42px] md:top-[50px] left-0 right-0 z-50 
 bg-gradient-to-b  
 backdrop-blur-md 
 py-4 px-4 md:py-5">
@@ -119,7 +138,7 @@ py-4 px-4 md:py-5">
     <div className="sm:hidden flex items-center gap-0.5 bg-white px-3 py-1.5 rounded-full shadow-sm border border-gray-100">
       <span className="text-red-600 font-extrabold text-sm">General Secretary</span>
       <span className="text-gray-400 text-sm">-</span>
-      <span className="text-blue-600 font-extrabold text-sm">2028</span>
+      <span className="text-blue-600 font-extrabold text-sm">2026</span>
     </div>
 
     {/* Desktop Nav */}
@@ -185,7 +204,7 @@ py-4 px-4 md:py-5">
 </header>
      
      {/* Hero Section — Clean White Background */}
-<section className="relative pt-24 min-h-screen flex items-center overflow-hidden bg-white">
+<section className="relative pt-32 md:pt-36 min-h-screen flex items-center overflow-hidden bg-white">
 
   {/* Optional subtle gradient */}
   <div className="absolute inset-0 -z-10 bg-gradient-to-b from-gray-50 via-white to-white" />
@@ -267,7 +286,7 @@ py-4 px-4 md:py-5">
           <span className="text-sm md:text-base font-bold">
             <span className="text-red-600">FOR NPP</span>
             <span className="text-gray-400 mx-2">•</span>
-            <span className="text-blue-600">GENERAL SECRETARY-2028</span>
+            <span className="text-blue-600">GENERAL SECRETARY-2026</span>
           </span>
         </div>
 
@@ -321,7 +340,7 @@ py-4 px-4 md:py-5">
 
       <section className="relative py-20 px-4 -translate-y">
   <div className="max-w-7xl mx-auto">
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-center">
 
      
 
@@ -330,16 +349,18 @@ py-4 px-4 md:py-5">
         <div className="w-14 h-14 md:w-16 md:h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:animate-pulse-glow group-hover:bg-white/40 transition">
           <Users className="text-white group-hover:scale-110 transition" size={28} />
         </div>
-        <h3 className="text-xl md:text-2xl font-bold mb-3">Join Our Team</h3>
-        <p className="text-sm md:text-base mb-6">
+        <h3 className="text-xl md:text-2xl font-bold mb-3 text-center">Join Our Team</h3>
+        <p className="text-sm md:text-base mb-6 text-center">
           Become a volunteer and be part of this historic movement. Your skills and passion can transform communities.
         </p>
-        <Link
-          href="/volunteer"
-          className="inline-flex items-center gap-2 font-semibold hover:gap-3 transition group"
-        >
-          Volunteer <ArrowRight size={18} className="group-hover:translate-x-1 transition" />
-        </Link>
+        <div className="text-center">
+          <Link
+            href="/volunteer"
+            className="inline-flex items-center gap-2 font-semibold hover:gap-3 transition group"
+          >
+            Volunteer <ArrowRight size={18} className="group-hover:translate-x-1 transition" />
+          </Link>
+        </div>
       </div>
 
       {/* Stay Informed Card */}
@@ -347,21 +368,24 @@ py-4 px-4 md:py-5">
         <div className="w-14 h-14 md:w-16 md:h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:animate-pulse-glow group-hover:bg-white/40 transition">
           <Newspaper className="text-white group-hover:scale-110 transition" size={28} />
         </div>
-        <h3 className="text-xl md:text-2xl font-bold mb-3">Send Message</h3>
-        <p className="text-sm md:text-base mb-6">
+        <h3 className="text-xl md:text-2xl font-bold mb-3 text-center">Send Message</h3>
+        <p className="text-sm md:text-base mb-6 text-center">
           Have questions or want to share your ideas? Send us a message and let's start a conversation about our future.
         </p>
-        <Link
-          href="/news"
-          className="inline-flex items-center gap-2 font-semibold hover:gap-3 transition group"
-        >
-          Send Message <ArrowRight size={18} className="group-hover:translate-x-1 transition" />
-        </Link>
+        <div className="text-center">
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 font-semibold hover:gap-3 transition group"
+          >
+            Send Message <ArrowRight size={18} className="group-hover:translate-x-1 transition" />
+          </Link>
+        </div>
       </div>
 
     </div>
   </div>
 </section>
+
       {/* About Section - Modern Design */}
       <section id='about' className="relative py-20 px-4 overflow-hidden bg-white">
         <style>{`
@@ -566,7 +590,7 @@ py-4 px-4 md:py-5">
             <div className="relative w-full max-w-sm">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                 <Image
-                  src="/image/giant-elephant.png"
+                  src="/image/Dr and Bawumia.JPG"
                   alt="Dr. Charles Dwamena Vision"
                   width={400}
                   height={500}
@@ -640,6 +664,152 @@ py-4 px-4 md:py-5">
         onClose={() => setIsVisionModalOpen(false)} 
         vision={selectedVision} 
       />
+
+      {/* Blog Section - Latest News About Dr. Charles Dwamena */}
+      <section className="relative py-20 px-4 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-12 md:mb-16">
+            <p className="text-sm font-semibold text-red-500 mb-3 tracking-wide">LATEST NEWS</p>
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
+              News & Updates
+            </h2>
+            <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
+              Stay updated with the latest news, events, and announcements from Dr. Charles Dwamena's campaign
+            </p>
+          </div>
+
+          {/* Blog Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            
+            {/* Blog Card 1 */}
+            <Link href="/news" className="group">
+              <article className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
+                {/* Image */}
+                <div className="relative h-48 md:h-56 overflow-hidden">
+                  <Image
+                    src="/image/Dr.China white shirt.png"
+                    alt="Dr. Charles Dwamena's Vision for Ghana"
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute top-4 left-4 bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                    Featured
+                  </div>
+                </div>
+                {/* Content */}
+                <div className="p-5 md:p-6">
+                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      January 15, 2026
+                    </span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
+                    A New Vision for Ghana's Future
+                  </h3>
+                  <p className="text-gray-600 text-sm md:text-base line-clamp-3">
+                    Dr. Charles Dwamena unveils his comprehensive plan for Ghana's development, focusing on youth empowerment, economic growth, and national unity.
+                  </p>
+                  <div className="mt-4 flex items-center text-red-500 font-semibold text-sm group-hover:gap-2 transition-all">
+                    Read More <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </article>
+            </Link>
+
+            {/* Blog Card 2 */}
+            <Link href="/news" className="group">
+              <article className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
+                {/* Image */}
+                <div className="relative h-48 md:h-56 overflow-hidden">
+                  <Image
+                    src="/image/Dr and Bawumia.JPG"
+                    alt="Campaign Rally Success"
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute top-4 left-4 bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                    Events
+                  </div>
+                </div>
+                {/* Content */}
+                <div className="p-5 md:p-6">
+                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      January 10, 2026
+                    </span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
+                    Massive Turnout at Campaign Rally
+                  </h3>
+                  <p className="text-gray-600 text-sm md:text-base line-clamp-3">
+                    Thousands of supporters gathered to show their backing for Dr. Dwamena's vision. The atmosphere was electric as people from all walks of life came together.
+                  </p>
+                  <div className="mt-4 flex items-center text-red-500 font-semibold text-sm group-hover:gap-2 transition-all">
+                    Read More <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </article>
+            </Link>
+
+            {/* Blog Card 3 */}
+            <Link href="/news" className="group">
+              <article className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
+                {/* Image */}
+                <div className="relative h-48 md:h-56 overflow-hidden">
+                  <Image
+                    src="/image/Dr.Dwamena-Black outfit.jpg"
+                    alt="Community Engagement"
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute top-4 left-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                    Community
+                  </div>
+                </div>
+                {/* Content */}
+                <div className="p-5 md:p-6">
+                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      January 5, 2026
+                    </span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
+                    Connecting with Communities Nationwide
+                  </h3>
+                  <p className="text-gray-600 text-sm md:text-base line-clamp-3">
+                    Dr. Dwamena continues his grassroots campaign, meeting with local leaders and understanding the unique challenges facing each region of Ghana.
+                  </p>
+                  <div className="mt-4 flex items-center text-red-500 font-semibold text-sm group-hover:gap-2 transition-all">
+                    Read More <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </article>
+            </Link>
+
+          </div>
+
+          {/* View All Button */}
+          <div className="text-center mt-10 md:mt-12">
+            <Link
+              href="/news"
+              className="inline-flex items-center gap-2 px-8 py-3 bg-gray-900 hover:bg-red-600 text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+            >
+              View All News
+              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Ghana Map Section */}
      {/* Nationwide Campaign Coverage Section */}
