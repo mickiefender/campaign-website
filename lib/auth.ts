@@ -8,10 +8,13 @@ const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || 'your-secret-key-change-this-in-production'
 )
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+// Create Supabase client only if environment variables are available
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+const supabase = supabaseUrl && supabaseServiceKey 
+  ? createClient(supabaseUrl, supabaseServiceKey)
+  : null
 
 export interface SessionPayload {
   userId: string
@@ -66,6 +69,12 @@ export async function deleteSession() {
 
 export async function verifyAdminCredentials(email: string, password: string): Promise<{ valid: boolean; user?: any }> {
   try {
+    // Check if Supabase client is initialized
+    if (!supabase) {
+      console.error('Supabase client not initialized - missing environment variables')
+      return { valid: false }
+    }
+
     // Query admin_users table
     const { data: adminUser, error } = await supabase
       .from('admin_users')

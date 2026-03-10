@@ -1,14 +1,14 @@
 'use client'
-export const dynamic = 'force-dynamic'
 
-import { useState, FormEvent } from 'react'
+import { Suspense, useState, FormEvent } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Lock, AlertCircle, Mail, Eye, EyeOff } from 'lucide-react'
+import { Lock, AlertCircle, Mail, Eye, EyeOff, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-function LoginForm() {
+// LoginFormContent uses useSearchParams - this is the component that needs Suspense
+function LoginFormContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -124,10 +124,42 @@ function LoginForm() {
   )
 }
 
-export default function AdminLogin() {
+// Loading component for Suspense boundary
+function LoginFormLoading() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted flex items-center justify-center p-4">
-      <LoginForm />
+    <div className="w-full max-w-md">
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
+          <Lock className="text-primary" size={32} />
+        </div>
+        <h1 className="text-3xl font-bold mb-2">Admin-Login</h1>
+        <p className="text-muted-foreground">
+          Loading...
+        </p>
+      </div>
+
+      <div className="bg-card border border-border rounded-lg p-8 shadow-lg space-y-6">
+        <div className="space-y-2">
+          <div className="h-4 w-24 bg-muted rounded animate-pulse"></div>
+          <div className="h-10 w-full bg-muted rounded animate-pulse"></div>
+        </div>
+        <div className="space-y-2">
+          <div className="h-4 w-24 bg-muted rounded animate-pulse"></div>
+          <div className="h-10 w-full bg-muted rounded animate-pulse"></div>
+        </div>
+        <div className="h-10 w-full bg-muted rounded animate-pulse"></div>
+      </div>
     </div>
   )
 }
+
+export default function AdminLogin() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted flex items-center justify-center p-4">
+      <Suspense fallback={<LoginFormLoading />}>
+        <LoginFormContent />
+      </Suspense>
+    </div>
+  )
+}
+
