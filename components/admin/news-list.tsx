@@ -12,7 +12,27 @@ import {
   PaginationNext, 
   PaginationPrevious 
 } from '@/components/ui/pagination'
-import { NewsArticle, Pagination as PaginationType } from './news-management'
+// Add the PaginationType interface definition or import from the correct path
+interface PaginationType {
+  page: number
+  totalPages: number
+  total: number
+}
+
+interface NewsArticle {
+  id: string
+  title: string
+  summary: string
+  slug: string
+  created_at: string
+  is_published: boolean
+  is_featured: boolean
+  is_breaking: boolean
+  category?: {
+    name: string
+    color: string
+  }
+}
 import { Edit, Trash2, Eye, Newspaper } from 'lucide-react'
 import Link from 'next/link'
 

@@ -39,12 +39,7 @@ export interface PaginationType {
   totalPages: number
 }
 
-interface Pagination {
-  page: number
-  limit: number
-  total: number
-  totalPages: number
-}
+
 
 export function NewsManagement() {
   const [news, setNews] = useState<NewsArticle[]>([])
