@@ -15,8 +15,9 @@ import {
 // Add the PaginationType interface definition or import from the correct path
 interface PaginationType {
   page: number
-  totalPages: number
+  limit: number
   total: number
+  totalPages: number
 }
 
 interface NewsArticle {

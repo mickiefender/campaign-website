@@ -45,7 +45,7 @@ export function NewsManagement() {
   const [news, setNews] = useState<NewsArticle[]>([])
   const [categories, setCategories] = useState<NewsCategory[]>([])
   const [loading, setLoading] = useState(true)
-  const [pagination, setPagination] = useState<Pagination>({ page: 1, limit: 10, total: 0, totalPages: 1 })
+  const [pagination, setPagination] = useState<PaginationType>({ page: 1, limit: 10, total: 0, totalPages: 1 })
   const [filters, setFilters] = useState({
     status: 'all',
     category: 'all',
