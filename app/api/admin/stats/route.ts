@@ -35,10 +35,10 @@ export async function GET(request: NextRequest) {
       console.error('Error fetching donations:', donationsError)
     }
 
-    // Calculate donation stats
-    const totalDonations = donations?.reduce((sum, d) => sum + Number(d.amount), 0) || 0
+    // Calculate donation stats - only include completed donations in total
     const completedDonations = donations?.filter(d => d.status === 'completed') || []
-    const totalDonors = donations?.length || 0
+    const totalDonations = completedDonations.reduce((sum, d) => sum + Number(d.amount), 0)
+    const totalDonors = completedDonations.length || 0
 
     // Get donations from last month for trend calculation
     const lastMonth = new Date()
@@ -84,11 +84,20 @@ export async function GET(request: NextRequest) {
     ) || []
 
     // Get recent donations for activity feed
-    const { data: recentDonations } = await supabase
+    const { data: recentDonationsRaw } = await supabase
       .from('donations')
-      .select('id, donor_name, amount, created_at')
+      .select('id, donor_name, amount, created_at, anonymous')
       .order('created_at', { ascending: false })
       .limit(5)
+
+    // Process recent donations to handle anonymous display
+    const recentDonations = (recentDonationsRaw || []).map((d: any) => {
+      const isAnonymous = d.anonymous === true || !d.donor_name || d.donor_name === 'Anonymous Donor'
+      return {
+        ...d,
+        donor_name: isAnonymous ? 'Anonymous Donor' : d.donor_name
+      }
+    })
 
     // Get recent volunteers for activity feed
     const { data: recentVolunteers } = await supabase

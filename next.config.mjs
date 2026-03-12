@@ -1,5 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'knafjwtfgxpdzsaibasd.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.supabase.co',
+      }
+    ]
+  },
   // Ensure API routes are not statically optimized
   experimental: {
     serverActions: {

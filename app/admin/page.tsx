@@ -2,13 +2,18 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { BarChart3, Users, Heart, MessageSquare, TrendingUp, LogOut, RefreshCw, Download, CheckCircle, XCircle, Clock, Menu, X, Bell, Settings, Search, LayoutDashboard, HandCoins, UserCircle, Flag } from 'lucide-react'
+import { BarChart3, Users, Heart, MessageSquare, TrendingUp, LogOut, RefreshCw, Download, CheckCircle, XCircle, Clock, Menu, X, Bell, Settings, Search, LayoutDashboard, HandCoins, UserCircle, Flag, Eye, Newspaper } from 'lucide-react'
 import Image from 'next/image'
 import { DataTable } from '@/components/admin/data-table'
+import { NewsManagement } from '@/components/admin/news-management'
+import { VolunteerDetailsDialog } from '@/components/admin/volunteer-details-dialog'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { toast } from 'sonner'
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts'
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 interface Stats {
   totalDonations: number
@@ -28,6 +33,10 @@ interface Donation {
   status: string
   created_at: string
   payment_method: string
+  anonymous: boolean
+  display_name: string
+  display_email: string
+  show_anonymous_badge: boolean
 }
 
 interface Volunteer {
@@ -36,9 +45,16 @@ interface Volunteer {
   email: string
   phone: string
   region: string
+  address?: string
+  city?: string
+  skills?: string[]
+  interested_roles?: string[]
+  availability?: string
+  commitment?: string
+  message?: string
   status: string
   created_at: string
-  availability: string
+  updated_at?: string
 }
 
 interface Message {
@@ -51,7 +67,7 @@ interface Message {
   created_at: string
 }
 
-type TabType = 'overview' | 'donations' | 'volunteers' | 'messages' | 'reports'
+type TabType = 'overview' | 'donations' | 'volunteers' | 'messages' | 'news' | 'reports'
 
 export default function AdminDashboard() {
   const router = useRouter()
@@ -98,6 +114,11 @@ export default function AdminDashboard() {
     volunteerRegion: 'all',
     messageStatus: 'all',
   })
+const [isExporting, setIsExporting] = useState(false)
+  const [selectedVolunteer, setSelectedVolunteer] = useState<Volunteer | null>(null)
+  const [isVolunteerDialogOpen, setIsVolunteerDialogOpen] = useState(false)
+  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null)
+  const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false)
 
   useEffect(() => {
     fetchStats()
@@ -203,6 +224,153 @@ export default function AdminDashboard() {
     }
   }
 
+  const exportDonations = async () => {
+    setIsExporting(true)
+    try {
+      const params = new URLSearchParams({
+        status: filters.donationStatus,
+        limit: '-1', // Fetch all donations for export
+      })
+      const response = await fetch(`/api/admin/donations?${params}`)
+      
+      // Handle unauthorized - session expired
+      if (response.status === 401) {
+        toast.error('Session expired. Please login again.')
+        router.push('/admin/login')
+        return
+      }
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        console.error('Export error:', errorData)
+        throw new Error(errorData.error || 'Failed to fetch donations')
+      }
+      
+      const data = await response.json()
+      const donations = data.donations || []
+      
+      if (donations.length === 0) {
+        toast.error('No donations to export')
+        return
+      }
+      
+      // Process donations data
+      const processedDonations = donations.map((donation: any) => {
+        const isAnonymous = donation.anonymous === true
+        const hasValidName = donation.donor_name && donation.donor_name !== 'Anonymous Donor'
+        
+        return {
+          'Donor Name': isAnonymous || !hasValidName ? 'Anonymous Donor' : donation.donor_name,
+          'Email': isAnonymous || !hasValidName ? 'N/A' : (donation.donor_email || 'N/A'),
+          'Amount (GHS)': donation.amount || 0,
+          'Status': donation.status || 'unknown',
+          'Payment Method': donation.payment_method || 'N/A',
+          'Anonymous': isAnonymous ? 'Yes' : 'No',
+          'Date': donation.created_at ? new Date(donation.created_at).toLocaleDateString() : 'N/A',
+          'Transaction Reference': donation.transaction_reference || 'N/A',
+        }
+      })
+      
+      // Create PDF document
+      const doc = new jsPDF()
+      
+      // Add title
+      doc.setFontSize(18)
+      doc.text('Donations Report', 14, 22)
+      
+      // Add date
+      doc.setFontSize(10)
+      doc.setTextColor(100)
+      doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 30)
+      
+      // Add summary
+      const totalAmount = processedDonations.reduce((sum: number, d: any) => sum + Number(d['Amount (GHS)']), 0)
+      doc.text(`Total Donations: ${processedDonations.length}`, 14, 38)
+      doc.text(`Total Amount: ₵${totalAmount.toLocaleString()}`, 14, 44)
+      
+      // Create table
+      const tableData = processedDonations.map((d: any) => [
+        d['Donor Name'],
+        d['Email'],
+        `₵${Number(d['Amount (GHS)']).toLocaleString()}`,
+        d['Status'].charAt(0).toUpperCase() + d['Status'].slice(1),
+        d['Payment Method'],
+        d['Anonymous'],
+        d['Date'],
+        d['Transaction Reference']
+      ])
+      
+      autoTable(doc, {
+        head: [['Donor Name', 'Email', 'Amount', 'Status', 'Payment Method', 'Anonymous', 'Date', 'Ref']],
+        body: tableData,
+        startY: 52,
+        styles: {
+          fontSize: 8,
+          cellPadding: 2,
+        },
+        headStyles: {
+          fillColor: [220, 38, 38], // Red color matching campaign theme
+          textColor: 255,
+          fontStyle: 'bold',
+        },
+        alternateRowStyles: {
+          fillColor: [249, 250, 251],
+        },
+        columnStyles: {
+          0: { cellWidth: 25 },
+          1: { cellWidth: 30 },
+          2: { cellWidth: 20, halign: 'right' },
+          3: { cellWidth: 18 },
+          4: { cellWidth: 25 },
+          5: { cellWidth: 18 },
+          6: { cellWidth: 25 },
+          7: { cellWidth: 25 },
+        },
+      })
+      
+      // Save the PDF
+      const date = new Date().toISOString().split('T')[0]
+      doc.save(`donations_report_${date}.pdf`)
+      
+      toast.success('Donations exported successfully as PDF')
+    } catch (error: any) {
+      console.error('Error exporting donations:', error)
+      if (!error.message?.includes('Session expired')) {
+        toast.error(error.message || 'Failed to export donations')
+      }
+    } finally {
+      setIsExporting(false)
+    }
+  }
+
+  const exportMessages = async () => {
+    setIsExporting(true)
+    try {
+      const params = new URLSearchParams({
+        status: filters.messageStatus,
+      })
+      const response = await fetch(`/api/admin/messages/export?${params}`)
+      if (!response.ok) throw new Error('Failed to export messages')
+      
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      const date = new Date().toISOString().split('T')[0]
+      a.download = `messages_export_${date}.csv`
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+      toast.success('Messages exported successfully')
+    } catch (error) {
+      console.error('Error exporting messages:', error)
+      toast.error('Failed to export messages')
+    } finally {
+      setIsExporting(false)
+    }
+  }
+
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' })
@@ -299,6 +467,7 @@ export default function AdminDashboard() {
     { id: 'donations', label: 'Donations', icon: HandCoins },
     { id: 'volunteers', label: 'Volunteers', icon: UserCircle },
     { id: 'messages', label: 'Messages', icon: MessageSquare },
+    { id: 'news', label: 'News', icon: Newspaper },
     { id: 'reports', label: 'Reports', icon: BarChart3 },
   ]
 
@@ -676,14 +845,42 @@ export default function AdminDashboard() {
                   <h2 className="text-2xl font-bold text-gray-800">Donations Management</h2>
                   <div className="flex gap-3">
                     <Button className="bg-red-600 hover:bg-red-700 text-white">+ Add New</Button>
-                    <Button variant="outline" className="border-red-200 text-red-700 hover:bg-red-50">Export</Button>
+                    <Button 
+                      variant="outline" 
+                      className="border-red-200 text-red-700 hover:bg-red-50"
+                      onClick={exportDonations}
+                      disabled={isExporting}
+                    >
+                      {isExporting ? 'Exporting...' : 'Export'}
+                    </Button>
                   </div>
                 </div>
                 <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                   <DataTable
                     columns={[
-                      { key: 'donor_name', label: 'Donor Name' },
-                      { key: 'donor_email', label: 'Email' },
+                      { 
+                        key: 'display_name', 
+                        label: 'Donor Name',
+                        render: (value, row: any) => (
+                          <div className="flex items-center gap-2">
+                            <span>{value}</span>
+                            {row.show_anonymous_badge && (
+                              <Badge variant="outline" className="bg-gray-100 text-gray-600 text-xs">
+                                Anonymous
+                              </Badge>
+                            )}
+                          </div>
+                        )
+                      },
+                      { 
+                        key: 'display_email', 
+                        label: 'Email',
+                        render: (value) => (
+                          <span className={value === '••••••••' ? 'text-gray-400' : ''}>
+                            {value}
+                          </span>
+                        )
+                      },
                       {
                         key: 'amount',
                         label: 'Amount',
@@ -770,8 +967,20 @@ export default function AdminDashboard() {
                       {
                         key: 'actions',
                         label: 'Actions',
-                        render: (_, row) => (
-                          <div className="flex gap-2">
+                        render: (_, row: Volunteer) => (
+                          <div className="flex gap-2 flex-wrap">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="border-blue-300 text-blue-700 hover:bg-blue-50"
+                              onClick={() => {
+                                setSelectedVolunteer(row)
+                                setIsVolunteerDialogOpen(true)
+                              }}
+                            >
+                              <Eye className="w-4 h-4 mr-1" />
+                              View
+                            </Button>
                             {row.status === 'pending' && (
                               <>
                                 <Button
@@ -840,14 +1049,44 @@ export default function AdminDashboard() {
               <div className="space-y-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <h2 className="text-2xl font-bold text-gray-800">Contact Messages</h2>
-                  <Button variant="outline" className="border-red-200 text-red-700 hover:bg-red-50">Export</Button>
+                  <Button 
+                    variant="outline" 
+                    className="border-red-200 text-red-700 hover:bg-red-50"
+                    onClick={exportMessages}
+                    disabled={isExporting}
+                  >
+                    {isExporting ? 'Exporting...' : 'Export'}
+                  </Button>
                 </div>
                 <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                   <DataTable
                     columns={[
                       { key: 'name', label: 'Name' },
                       { key: 'email', label: 'Email' },
-                      { key: 'subject', label: 'Subject' },
+{ key: 'subject', label: 'Subject' },
+                      {
+                        key: 'message',
+                        label: 'Message',
+                        render: (value, row) => (
+                          <div className="flex items-center gap-2">
+                            <span className="truncate max-w-[150px]">
+                              {value ? (value.length > 50 ? value.substring(0, 50) + '...' : value) : 'No message'}
+                            </span>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="text-blue-600 border-blue-300 hover:bg-blue-50"
+                              onClick={() => {
+                                setSelectedMessage(row as Message)
+                                setIsMessageDialogOpen(true)
+                              }}
+                            >
+                              <Eye className="w-3 h-3 mr-1" />
+                              View
+                            </Button>
+                          </div>
+                        )
+                      },
                       {
                         key: 'status',
                         label: 'Status',
@@ -907,6 +1146,9 @@ export default function AdminDashboard() {
               </div>
             )}
 
+            {/* News Tab */}
+            {activeTab === 'news' && <NewsManagement />}
+
             {/* Reports Tab */}
             {activeTab === 'reports' && (
               <div className="space-y-6">
@@ -935,6 +1177,82 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
+
+{/* Volunteer Details Dialog */}
+      <VolunteerDetailsDialog
+        volunteer={selectedVolunteer}
+        open={isVolunteerDialogOpen}
+        onOpenChange={setIsVolunteerDialogOpen}
+      />
+      
+      {/* Message Details Dialog */}
+      <Dialog open={isMessageDialogOpen} onOpenChange={setIsMessageDialogOpen}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>Message Details</DialogTitle>
+          </DialogHeader>
+          {selectedMessage && (
+            <div className="space-y-4 mt-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Name</p>
+                  <p className="text-sm">{selectedMessage.name}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Email</p>
+                  <p className="text-sm">{selectedMessage.email}</p>
+                </div>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500">Subject</p>
+                <p className="text-sm">{selectedMessage.subject || 'No subject'}</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500">Message</p>
+                <div className="mt-1 p-3 bg-gray-50 rounded-lg border border-gray-200 max-h-[300px] overflow-y-auto">
+                  <p className="text-sm whitespace-pre-wrap">{selectedMessage.message}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Status</p>
+                  {getStatusBadge(selectedMessage.status)}
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Date</p>
+                  <p className="text-sm">{formatDate(selectedMessage.created_at)}</p>
+                </div>
+              </div>
+              <div className="flex gap-2 pt-2">
+                {selectedMessage.status === 'new' && (
+                  <Button
+                    size="sm"
+                    className="bg-red-600 hover:bg-red-700"
+                    onClick={() => {
+                      updateMessageStatus(selectedMessage.id, 'read')
+                      setIsMessageDialogOpen(false)
+                    }}
+                  >
+                    Mark as Read
+                  </Button>
+                )}
+                {selectedMessage.status === 'read' && (
+                  <Button
+                    size="sm"
+                    className="bg-red-600 hover:bg-red-700"
+                    onClick={() => {
+                      updateMessageStatus(selectedMessage.id, 'replied')
+                      setIsMessageDialogOpen(false)
+                    }}
+                  >
+                    Mark as Replied
+                  </Button>
+                )}
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

@@ -49,9 +49,12 @@ export async function GET(request: NextRequest) {
       query = query.or(`donor_name.ilike.%${search}%,donor_email.ilike.%${search}%`)
     }
 
-    // Apply pagination
-    query = query.range(offset, offset + limit - 1)
+    // Apply pagination (use limit=-1 to fetch all for exports)
+    if (limit !== -1) {
+      query = query.range(offset, offset + limit - 1)
+    }
 
+    // Fetch donations from database
     const { data, error, count } = await query
 
     if (error) {
@@ -59,8 +62,30 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 400 })
     }
 
+    // Process donations to add display fields based on anonymous status
+    const processedDonations = (data || []).map((donation: any) => {
+      // Handle existing donations that might have NULL values
+      const isAnonymous = donation.anonymous === true
+      const hasValidName = donation.donor_name && donation.donor_name !== 'Anonymous Donor'
+      
+      if (isAnonymous || !hasValidName) {
+        return {
+          ...donation,
+          display_name: 'Anonymous Donor',
+          display_email: '••••••••',
+          show_anonymous_badge: true,
+        }
+      }
+      return {
+        ...donation,
+        display_name: donation.donor_name || 'Unknown',
+        display_email: donation.donor_email || '••••••••',
+        show_anonymous_badge: false,
+      }
+    })
+
     return NextResponse.json({
-      donations: data || [],
+      donations: processedDonations,
       pagination: {
         page,
         limit,

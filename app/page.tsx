@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Heart, Users, Newspaper, ArrowRight, BookOpen, TrendingUp, Stethoscope, Building2, Leaf, Handshake, Menu, X } from 'lucide-react'
+import { Heart, Users, Newspaper, ArrowRight, BookOpen, TrendingUp, Stethoscope, Building2, Leaf, Handshake, Menu, X, Calendar, User, Loader2 } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 import { useEffect, useState } from 'react'
 import TypingName from '@/components/typing-name'
 import RouteLoader from '@/components/route-loader'
@@ -17,7 +18,10 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
   const [selectedVision, setSelectedVision] = useState<any>(null)
   const [isVisionModalOpen, setIsVisionModalOpen] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
+const [mobileOpen, setMobileOpen] = useState(false)
+
+  const [featuredNews, setFeaturedNews] = useState<any[]>([])
+  const [newsLoading, setNewsLoading] = useState(true)
 
   const visionData = [
     {
@@ -75,7 +79,7 @@ export default function Home() {
     setIsVisionModalOpen(true)
   }
 
-  useEffect(() => {
+useEffect(() => {
     const handleStart = () => setIsLoading(true)
     const handleStop = () => setIsLoading(false)
 
@@ -84,10 +88,29 @@ export default function Home() {
     return () => window.removeEventListener('beforeunload', handleStart)
   }, [])
 
+  useEffect(() => {
+    const fetchFeaturedNews = async () => {
+      try {
+        setNewsLoading(true)
+        const response = await fetch('/api/news?featured=true&limit=6')
+        if (!response.ok) throw new Error('Failed to fetch')
+        const data = await response.json()
+        setFeaturedNews(data.news || [])
+      } catch (error) {
+        console.error('News fetch error:', error)
+        setFeaturedNews([])
+      } finally {
+        setNewsLoading(false)
+      }
+    }
+
+    fetchFeaturedNews()
+  }, [])
+
   return (
     <div className="w-full">
       {/* Scrolling Marquee - Before Header */}
-      <div className="fixed top-0 left-0 right-0 z-[60] bg-red-600 text-white py-2 overflow-hidden">
+      <div className="fixed top-0 left-0 right-0 z-[60] bg-red-600 text-white py-1 overflow-hidden">
         <style>{`
           @keyframes marquee {
             0% { transform: translateX(100%); }
@@ -99,7 +122,7 @@ export default function Home() {
           }
         `}</style>
         <div className="marquee-text">
-          <span className="text-lg md:text-xl font-bold mx-8">
+          <span className="text-sm md:text-base font-bold mx-8">
            Rebuilding to restore the main love !!!•       Rebuilding to restore the main love!!! •    Rebuilding to restore the main love!!! •    Rebuilding to restore the main love!!!
           </span>
         </div>
@@ -115,10 +138,10 @@ export default function Home() {
 
       
       {/* Header - Fixed Above Everything */}
-<header className="fixed top-[42px] md:top-[50px] left-0 right-0 z-50 
+<header className="fixed top-[34px] md:top-[42px] left-0 right-0 z-50 
 bg-gradient-to-b  
 backdrop-blur-md 
-py-4 px-4 md:py-5">
+py-3 px-4 md:py-4">
 
   <div className="max-w-7xl mx-auto flex items-center justify-between">
 
@@ -474,17 +497,7 @@ py-4 px-4 md:py-5">
                   className="object-cover"
                 />
                 
-                {/* Secondary circular overlay */}
-                <div className="circular-secondary">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/image/Dr.Dwamena-Black outfit.jpg"
-                      alt="Dr. Dwamena Portrait"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </div>
+               
               </div>
             </div>
 
@@ -679,124 +692,77 @@ py-4 px-4 md:py-5">
             </p>
           </div>
 
-          {/* Blog Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            
-            {/* Blog Card 1 */}
-            <Link href="/news" className="group">
-              <article className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
-                {/* Image */}
-                <div className="relative h-48 md:h-56 overflow-hidden">
-                  <Image
-                    src="/image/Dr.China white shirt.png"
-                    alt="Dr. Charles Dwamena's Vision for Ghana"
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute top-4 left-4 bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                    Featured
+{/* Dynamic Featured News from Admin */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {newsLoading ? (
+                Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i} className="animate-pulse bg-card border border-border rounded-lg p-6">
+                    <div className="h-40 bg-muted rounded-md mb-4"></div>
+                    <div className="h-5 bg-muted rounded w-3/4 mb-3"></div>
+                    <div className="h-4 bg-muted rounded w-1/2 mb-4"></div>
+                    <div className="flex justify-between text-sm">
+                      <div className="h-4 bg-muted rounded w-20"></div>
+                      <div className="h-4 bg-muted rounded w-20"></div>
+                    </div>
                   </div>
+                ))
+              ) : featuredNews.length > 0 ? (
+                featuredNews.map((article: any) => (
+                  <article key={article.id} className="group bg-card border border-border hover:border-accent rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all h-full">
+                    <div className="relative h-48 lg:h-52 bg-gradient-to-br from-primary/10 to-accent/10 group-hover:from-primary/20 overflow-hidden">
+                      {article.featured_image_url ? (
+                        <Image
+                          src={article.featured_image_url}
+                          alt={article.title}
+                          fill
+                          className="object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      ) : null}
+                    </div>
+                    <div className="p-6">
+                      {article.category && (
+                        <Badge 
+                          className="mb-3"
+                          style={{ backgroundColor: article.category.color || '#dc2626' }}
+                        >
+                          {article.category.name}
+                        </Badge>
+                      )}
+                      <h3 className="font-bold text-lg md:text-xl mb-3 line-clamp-2 group-hover:text-foreground transition">
+                        {article.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+                        {article.summary}
+                      </p>
+                      <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
+                        <span className="flex items-center gap-1">
+                          <Calendar size={14} />
+                          {new Date(article.published_at || article.created_at).toLocaleDateString()}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <User size={14} />
+                          {article.author_name}
+                        </span>
+                      </div>
+                      <Link
+                        href={`/news/${article.slug}`}
+                        className="inline-flex items-center gap-1 text-accent font-semibold hover:text-accent-foreground text-sm group-hover:translate-x-1 transition-all"
+                      >
+                        Read More <ArrowRight size={14} />
+                      </Link>
+                    </div>
+                  </article>
+                ))
+              ) : (
+                <div className="col-span-full text-center py-20">
+                  <Newspaper className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <p className="text-lg text-gray-500">No featured news yet. Publish from admin dashboard.</p>
+                  <Link href="/news" className="mt-4 inline-flex items-center gap-2 text-red-600 hover:text-red-700 font-semibold">
+                    View All News <ArrowRight size={18} />
+                  </Link>
                 </div>
-                {/* Content */}
-                <div className="p-5 md:p-6">
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
-                    <span className="flex items-center gap-1">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      January 15, 2026
-                    </span>
-                  </div>
-                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
-                    A New Vision for Ghana's Future
-                  </h3>
-                  <p className="text-gray-600 text-sm md:text-base line-clamp-3">
-                    Dr. Charles Dwamena unveils his comprehensive plan for Ghana's development, focusing on youth empowerment, economic growth, and national unity.
-                  </p>
-                  <div className="mt-4 flex items-center text-red-500 font-semibold text-sm group-hover:gap-2 transition-all">
-                    Read More <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </article>
-            </Link>
-
-            {/* Blog Card 2 */}
-            <Link href="/news" className="group">
-              <article className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
-                {/* Image */}
-                <div className="relative h-48 md:h-56 overflow-hidden">
-                  <Image
-                    src="/image/Dr and Bawumia.JPG"
-                    alt="Campaign Rally Success"
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute top-4 left-4 bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                    Events
-                  </div>
-                </div>
-                {/* Content */}
-                <div className="p-5 md:p-6">
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
-                    <span className="flex items-center gap-1">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      January 10, 2026
-                    </span>
-                  </div>
-                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
-                    Massive Turnout at Campaign Rally
-                  </h3>
-                  <p className="text-gray-600 text-sm md:text-base line-clamp-3">
-                    Thousands of supporters gathered to show their backing for Dr. Dwamena's vision. The atmosphere was electric as people from all walks of life came together.
-                  </p>
-                  <div className="mt-4 flex items-center text-red-500 font-semibold text-sm group-hover:gap-2 transition-all">
-                    Read More <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </article>
-            </Link>
-
-            {/* Blog Card 3 */}
-            <Link href="/news" className="group">
-              <article className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
-                {/* Image */}
-                <div className="relative h-48 md:h-56 overflow-hidden">
-                  <Image
-                    src="/image/Dr.Dwamena-Black outfit.jpg"
-                    alt="Community Engagement"
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute top-4 left-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                    Community
-                  </div>
-                </div>
-                {/* Content */}
-                <div className="p-5 md:p-6">
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
-                    <span className="flex items-center gap-1">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      January 5, 2026
-                    </span>
-                  </div>
-                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
-                    Connecting with Communities Nationwide
-                  </h3>
-                  <p className="text-gray-600 text-sm md:text-base line-clamp-3">
-                    Dr. Dwamena continues his grassroots campaign, meeting with local leaders and understanding the unique challenges facing each region of Ghana.
-                  </p>
-                  <div className="mt-4 flex items-center text-red-500 font-semibold text-sm group-hover:gap-2 transition-all">
-                    Read More <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </article>
-            </Link>
-
-          </div>
+              )}
+            </div>
 
           {/* View All Button */}
           <div className="text-center mt-10 md:mt-12">

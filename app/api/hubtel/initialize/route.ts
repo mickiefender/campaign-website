@@ -24,18 +24,20 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create donation record
+    // Create donation record with correct column names
+    // Note: We always store the real email for admin records, but use anonymous flag
     const { data: donation, error: donationError } = await supabase
       .from('donations')
       .insert([
         {
-          full_name: isAnonymous ? 'Anonymous Donor' : fullName,
-          email: email,
-          phone: phone || null,
+          donor_name: isAnonymous ? 'Anonymous Donor' : fullName,
+          donor_email: email,
+          donor_phone: phone || null,
           amount: amount, // Amount is already in cedis from frontend
-          is_anonymous: isAnonymous,
+          anonymous: isAnonymous,
           message: message || null,
           status: 'pending',
+          payment_method: 'hubtel',
           created_at: new Date(),
         }
       ])
