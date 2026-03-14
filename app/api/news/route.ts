@@ -9,23 +9,52 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey)
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
+    const slug = searchParams.get('slug')
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '10')
     const category = searchParams.get('category')
     const featured = searchParams.get('featured')
 
+    // Only fetch published news for public API
     let query = supabase
       .from('news')
       .select(`
         *,
         category:news_categories(name, slug, color)
-      `, { count: 'exact' })
+      `)
 
-    // Only fetch published news for public API
     query = query.eq('is_published', true)
 
+    if (slug) {
+      // Single article by slug
+      const { data: newsData, error: slugError } = await query
+        .eq('slug', slug)
+        .maybeSingle()
+
+      if (slugError) {
+        console.error('Slug query error:', slugError)
+        return NextResponse.json({ error: slugError.message }, { status: 500 })
+      }
+
+      if (newsData) {
+        // Increment view count
+        await supabase
+          .from('news')
+          .update({ view_count: (newsData.view_count || 0) + 1 })
+          .eq('id', newsData.id)
+
+        return NextResponse.json({
+          news: [newsData],
+          pagination: { page: 1, limit: 1, total: 1, totalPages: 1 }
+        })
+      } else {
+        return NextResponse.json({ news: [], pagination: { page: 1, limit: 1, total: 0, totalPages: 0 } }, { status: 404 })
+      }
+    }
+
+    // List mode
     if (category && category !== 'all') {
-      query = query.eq('category_slug', category)
+      query = query.eq('category.slug', category)
     }
 
     if (featured === 'true') {
@@ -44,8 +73,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    // Increment view count for each news item
-    if (news && news.length > 0) {
+    // Increment view count for list items (skip for single slug to avoid double-count)
+    if (news && news.length > 0 && !slug) {
       for (const item of news) {
         await supabase
           .from('news')

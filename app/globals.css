@@ -609,6 +609,100 @@ body {
   }
 }
 
+@keyframes marquee-rtl {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee-rtl {
+  animation: marquee-rtl 25s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-rtl:hover {
+  animation-play-state: paused;
+}
+
 html {
   scroll-behavior: smooth;
+}
+
+/* Quill Snow Theme - Added for react-quill */
+.ql-container {
+  box-sizing: border-box;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  height: 100%;
+  margin: 0px;
+  position: relative;
+}
+.ql-snow .ql-toolbar {
+  @apply bg-muted border-border;
+}
+.ql-snow .ql-container {
+  @apply bg-background border-border;
+}
+.ql-editor {
+  @apply bg-background text-foreground outline-none;
+  box-sizing: border-box;
+  line-height: 1.42;
+  height: 100%;
+  overflow-y: auto;
+  padding: 12px 15px;
+  tab-size: 4;
+  -moz-tab-size: 4;
+  text-align: left;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.ql-editor > * {
+  cursor: text;
+}
+.ql-editor blockquote {
+  border-left: 2px solid rgb(var(--border));
+  margin: 0 0 0 0.5em;
+  padding-left: 1em;
+}
+.ql-editor h1 { font-size: 2em; }
+.ql-editor h2 { font-size: 1.5em; }
+.ql-editor h3 { font-size: 1.17em; }
+.ql-editor h4 { font-size: 1em; }
+.ql-editor h5 { font-size: 0.83em; }
+.ql-editor h6 { font-size: 0.67em; }
+.ql-editor ul > li::before {
+  content: '\2022';
+}
+.ql-editor code, .ql-editor pre {
+  @apply bg-muted rounded;
+}
+.ql-editor pre {
+  white-space: pre-wrap;
+  margin: 0;
+  padding: 6px 8px;
+}
+.ql-editor img {
+  max-width: 100%;
+}
+.ql-toolbar button:hover, .ql-toolbar .ql-picker-label:hover {
+  color: rgb(var(--primary));
+}
+.ql-snow.ql-toolbar button:hover .ql-stroke, 
+.ql-snow.ql-toolbar button:hover .ql-fill {
+  stroke: rgb(var(--primary));
+  fill: rgb(var(--primary));
+}
+.dark .ql-editor {
+  color: rgb(var(--foreground));
+}
+.dark .ql-snow .ql-toolbar {
+  background: rgb(var(--background));
+  border-color: rgb(var(--border));
+}
+.dark .ql-snow .ql-container {
+  background: rgb(var(--background));
+  border-color: rgb(var(--border));
 }

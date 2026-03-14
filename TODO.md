@@ -1,12 +1,14 @@
-# Fix TypeScript Build Error - Pagination Type ✅
+# Task Progress: News Images Fix
 
-## Steps:
-- [x] 1. Create this TODO.md
-- [x] 2. Fix typo in components/admin/news-management.tsx (Pagination → PaginationType)
-- [x] 3. Align PaginationType interface in components/admin/news-list.tsx (add limit)
-- [x] 4. Test with `pnpm run build` (running successfully, no errors)
-- [x] 5. Update TODO.md with completion status
-- [x] 6. Attempt task completion
+## Steps to Complete:
+- [x] 1. Create TODO.md with plan breakdown
+- [x] 2. Update components/admin/news-editor.tsx (better img classes)
+- [x] 3. Enhanced tailwind.config.ts proseImg styles  
+- [x] 4. Added app/globals.css.append with perfect news img styles
+- [ ] 5. Verify app/news/[slug]/page.tsx prose wrapper
+- [ ] 6. Test: npm run dev → admin insert image → view news
+- [ ] 7. Mark TODO-NEWS-IMAGE-FIX.md complete
+- [ ] 8. attempt_completion
 
-**Completed**: Build error fixed. `pnpm run build` now succeeds.
+**Next step:** Verify display pages have prose wrapper ✓ + Test images.
 

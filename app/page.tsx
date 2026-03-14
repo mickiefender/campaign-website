@@ -693,7 +693,8 @@ py-3 px-4 md:py-4">
           </div>
 
 {/* Dynamic Featured News from Admin */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 md:flex md:flex-nowrap md:overflow-x-auto md:gap-8 lg:gap-8 pb-4 md:pb-8 -mr-4 md:-mr-6 lg:-mr-8 scrollbar-thin md:scrollbar-thin scrollbar-thumb-gray-400 md:scrollbar-thumb-gray-500 hover:scrollbar-thumb-gray-600">
+
               {newsLoading ? (
                 Array.from({ length: 3 }).map((_, i) => (
                   <div key={i} className="animate-pulse bg-card border border-border rounded-lg p-6">
@@ -708,7 +709,8 @@ py-3 px-4 md:py-4">
                 ))
               ) : featuredNews.length > 0 ? (
                 featuredNews.map((article: any) => (
-                  <article key={article.id} className="group bg-card border border-border hover:border-accent rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all h-full">
+                  <article key={article.id} className="group bg-card border border-border hover:border-accent rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all h-full flex-shrink-0 w-full md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2.66rem)] min-w-0 md:min-h-[400px]">
+
                     <div className="relative h-48 lg:h-52 bg-gradient-to-br from-primary/10 to-accent/10 group-hover:from-primary/20 overflow-hidden">
                       {article.featured_image_url ? (
                         <Image

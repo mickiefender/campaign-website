@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -9,7 +10,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Switch } from '@/components/ui/switch'
 import { toast } from 'sonner'
-import { Upload, X, Save, Eye, EyeOff } from 'lucide-react'
+import { Upload, X, Save, Eye, EyeOff, Image as ImageIcon } from 'lucide-react'
+
 interface NewsCategory {
   id: string
   name: string
@@ -26,6 +28,7 @@ interface Props {
 
 export function NewsEditor({ newsId, categories, onSave, onClose }: Props) {
   const [loading, setLoading] = useState(false)
+
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -41,7 +44,6 @@ export function NewsEditor({ newsId, categories, onSave, onClose }: Props) {
     meta_description: '',
     og_image: ''
   })
-
   useEffect(() => {
     if (newsId) {
       loadNews()
@@ -76,7 +78,6 @@ export function NewsEditor({ newsId, categories, onSave, onClose }: Props) {
         console.error('Response not ok:', response.status, errorText)
         if (response.status === 404) {
           toast.error('News not found. This item may have been deleted. Create new article or refresh list.')
-          // Clear form for new article
           setFormData({
             title: '',
             slug: '',
@@ -106,12 +107,13 @@ export function NewsEditor({ newsId, categories, onSave, onClose }: Props) {
     e.preventDefault()
     setLoading(true)
 
+    const finalFormData = formData
+
     try {
       const method = newsId ? 'PATCH' : 'POST'
-      const url = '/api/admin/news'
-      const body = { ...formData, id: newsId }
+      const body = { ...finalFormData, id: newsId }
 
-      const response = await fetch(url, {
+      const response = await fetch('/api/admin/news', {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -133,7 +135,7 @@ export function NewsEditor({ newsId, categories, onSave, onClose }: Props) {
     }
   }
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFeaturedImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
 
@@ -166,13 +168,6 @@ export function NewsEditor({ newsId, categories, onSave, onClose }: Props) {
     }
   }
 
-  const removeImage = () => {
-    setFormData(prev => ({
-      ...prev,
-      featured_image_url: ''
-    }))
-  }
-
   const generateSlug = (title: string) => {
     return title
       .toLowerCase()
@@ -180,29 +175,75 @@ export function NewsEditor({ newsId, categories, onSave, onClose }: Props) {
       .replace(/(^-|-$)/g, '')
   }
 
+  const removeImage = () => {
+    setFormData(prev => ({
+      ...prev,
+      featured_image_url: ''
+    }))
+  }
+
+  const handleContentImageUpload = async () => {
+    const input = document.createElement('input')
+    input.setAttribute('type', 'file')
+    input.setAttribute('accept', 'image/*')
+    input.click()
+
+    input.onchange = async () => {
+      const file = (input.files as FileList)[0]
+      if (!file) return
+
+      const formDataUpload = new FormData()
+      formDataUpload.append('file', file)
+      formDataUpload.append('type', 'image')
+      if (newsId) {
+        formDataUpload.append('news_id', newsId)
+      }
+
+      try {
+        const response = await fetch('/api/admin/news/upload', {
+          method: 'POST',
+          body: formDataUpload,
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          const imgTag = `<img src="${data.publicUrl}" alt="Uploaded image" class="max-w-full h-auto rounded-lg mx-auto d-block">\n\n`
+          setFormData(prev => ({
+            ...prev,
+            content: prev.content + imgTag
+          }))
+          toast.success('Image inserted!')
+        } else {
+          toast.error('Upload failed')
+        }
+      } catch (error) {
+        toast.error('Upload failed')
+      }
+    }
+  }
+
   return (
     <div className="space-y-6">
       <Card>
-<CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-row items-center justify-between">
           <div>
             <CardTitle>{newsId ? 'Edit News Article' : 'Create New News Article'}</CardTitle>
             <CardDescription>
               Fill out the form to {newsId ? 'update' : 'create'} a news article
             </CardDescription>
           </div>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={onClose || (() => {})}
-              className="h-8 w-8 p-0"
-            >
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={onClose || (() => {})}
+            className="h-8 w-8 p-0"
+          >
             <X className="h-4 w-4" />
           </Button>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Title & Slug */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="title">Title *</Label>
@@ -229,7 +270,6 @@ export function NewsEditor({ newsId, categories, onSave, onClose }: Props) {
               </div>
             </div>
 
-            {/* Category & Status */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div>
                 <Label htmlFor="category_id">Category</Label>
@@ -264,7 +304,6 @@ export function NewsEditor({ newsId, categories, onSave, onClose }: Props) {
               </div>
             </div>
 
-            {/* Featured Image */}
             <div>
               <Label>Featured Image</Label>
               <div className="space-y-2 mt-2">
@@ -273,7 +312,7 @@ export function NewsEditor({ newsId, categories, onSave, onClose }: Props) {
                     id="image-upload"
                     type="file"
                     accept="image/*"
-                    onChange={handleImageUpload}
+                    onChange={handleFeaturedImageUpload}
                     className="flex-1"
                   />
                   <Button type="button" size="sm" variant="outline">
@@ -302,23 +341,33 @@ export function NewsEditor({ newsId, categories, onSave, onClose }: Props) {
               </div>
             </div>
 
-            {/* Content */}
             <div>
-              <Label htmlFor="content">Content *</Label>
-              <Textarea
-                id="content"
-                value={formData.content}
-                onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
-                rows={20}
-                className="font-mono resize-vertical"
-                placeholder="Enter news content..."
-                required
-              />
+              <Label>Content *</Label>
+              <div className="space-y-2">
+                <div className="flex gap-2">
+                  <Button 
+                    type="button" 
+                    onClick={handleContentImageUpload}
+                    variant="outline"
+                    className="flex-1 justify-start"
+                  >
+                    <Upload className="w-4 h-4 mr-2" />
+                    Insert Image to Content
+                  </Button>
+                </div>
+                <Textarea
+                  id="content"
+                  value={formData.content}
+                  onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
+                  rows={20}
+                  placeholder="Write your news article here. Click 'Insert Image to Content' to add images (appends to end)..."
+                  className="font-sans"
+                />
+              </div>
             </div>
 
-            {/* Summary */}
             <div>
-              <Label htmlFor="summary">Summary</Label>
+              <Label>Summary</Label>
               <Textarea
                 id="summary"
                 value={formData.summary}
@@ -328,7 +377,6 @@ export function NewsEditor({ newsId, categories, onSave, onClose }: Props) {
               />
             </div>
 
-            {/* Author & Source */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="author_name">Author</Label>
@@ -349,7 +397,6 @@ export function NewsEditor({ newsId, categories, onSave, onClose }: Props) {
               </div>
             </div>
 
-            {/* Action Buttons */}
             <div className="flex gap-3 pt-4">
               <Button type="submit" disabled={loading} className="flex-1">
                 {loading ? 'Saving...' : (

@@ -93,8 +93,33 @@ const config: Config = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      typography: (theme: any) => ({
+        DEFAULT: {
+          css: {
+            maxWidth: 'none',
+          },
+        },
+        sm: {},
+        lg: {},
+        xl: {},
+        '2xl': {},
+        '3xl': {},
+        proseImg: {
+          my: '1.5em',
+          mx: 'auto',
+          maxWidth: '100%',
+          height: 'auto',
+          borderRadius: theme('borderRadius.xl'),
+          boxShadow: theme('boxShadow.lg'),
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+          '&:hover': {
+            transform: 'scale(1.02)',
+            boxShadow: theme('boxShadow.2xl'),
+          },
+        },
+      }),
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
 }
 export default config

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { Newspaper, ArrowRight, Calendar, User, Loader2, Heart, Search } from 'lucide-react'
+import { Newspaper, ArrowRight, Calendar, User, Loader2, Heart } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 
@@ -147,7 +147,7 @@ export default function NewsPage() {
             Campaign News
           </h1>
           <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-            Stay updated  with the latest news, announcements, events, and achievements from Dr. Charles Dwamena&apos;s campaign journey
+            Stay updated with the latest news, announcements, events, and achievements from Dr. Charles Dwamena&apos;s campaign journey
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -183,54 +183,55 @@ export default function NewsPage() {
                   <p className="text-gray-600 mb-12">Highlighted campaign updates and announcements</p>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {featuredNews.map((article) => (
-                      <article key={article.id} className="group bg-white border border-gray-200 hover:border-red-200 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all h-full">
-                        <div className="relative h-56 lg:h-64 bg-gradient-to-br from-primary/10 to-accent/10 group-hover:from-red-50 overflow-hidden">
-                          {article.featured_image_url ? (
-                            <Image
-                              src={article.featured_image_url}
-                              alt={article.title}
-                              fill
-                              className="object-cover hover:scale-105 transition-transform duration-500"
-                            />
-                          ) : (
-                            <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse" />
-                          )}
-                        </div>
-                        <div className="p-8">
-                          {article.category && (
-                            <Badge 
-                              className="mb-4 text-xs"
-                              style={{ backgroundColor: article.category.color }}
-                            >
-                              {article.category.name}
-                            </Badge>
-                          )}
-                          <h3 className="font-bold text-xl md:text-2xl mb-4 line-clamp-2 group-hover:text-red-600 transition text-gray-900">
-                            {article.title}
-                          </h3>
-                          <p className="text-gray-600 text-base mb-6 line-clamp-3 leading-relaxed">
-                            {article.summary}
-                          </p>
-                          <div className="flex items-center justify-between text-sm text-gray-500 mb-6">
-                            <span className="flex items-center gap-1">
-                              <Calendar size={16} />
-                              {new Date(article.published_at).toLocaleDateString()}
-                            </span>
-                            {article.author_name && (
-                              <span className="flex items-center gap-1">
-                                <User size={16} />
-                                {article.author_name}
-                              </span>
+                      <Link key={article.id} href={`/news/${article.slug}`} className="block h-full hover:shadow-xl transition-all">
+                        <article className="bg-white border border-gray-200 hover:border-red-200 rounded-xl overflow-hidden shadow-sm h-full">
+                          <div className="aspect-[16/9] relative bg-gradient-to-br from-primary/10 to-accent/10 hover:from-red-50 overflow-hidden">
+                            {article.featured_image_url ? (
+                              <Image
+                                src={article.featured_image_url}
+                                alt={article.title}
+                                fill
+                                className="object-cover hover:scale-105 transition-transform duration-500"
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse flex items-center justify-center">
+                                <Newspaper className="w-12 h-12 text-gray-400" />
+                              </div>
                             )}
                           </div>
-                          <Link
-                            href={`/news/${article.slug}`}
-                            className="inline-flex items-center gap-2 text-red-600 hover:text-red-700 font-semibold text-base group-hover:translate-x-1 transition-all"
-                          >
-                            Read Full Story <ArrowRight size={18} />
-                          </Link>
-                        </div>
-                      </article>
+                          <div className="p-8">
+                            {article.category && (
+                              <Badge 
+                                className="mb-4 text-xs"
+                                style={{ backgroundColor: article.category.color }}
+                              >
+                                {article.category.name}
+                              </Badge>
+                            )}
+                            <h3 className="font-bold text-xl md:text-2xl mb-4 line-clamp-2 hover:text-red-600 transition text-gray-900">
+                              {article.title}
+                            </h3>
+                            <p className="text-gray-600 text-base mb-6 line-clamp-3 leading-relaxed">
+                              {article.summary}
+                            </p>
+                            <div className="flex items-center justify-between text-sm text-gray-500 mb-6">
+                              <span className="flex items-center gap-1">
+                                <Calendar size={16} />
+                                {new Date(article.published_at).toLocaleDateString()}
+                              </span>
+                              {article.author_name && (
+                                <span className="flex items-center gap-1">
+                                  <User size={16} />
+                                  {article.author_name}
+                                </span>
+                              )}
+                            </div>
+                            <div className="inline-flex items-center gap-2 text-red-600 hover:text-red-700 font-semibold text-base transition-all">
+                              Read Full Story <ArrowRight size={18} />
+                            </div>
+                          </div>
+                        </article>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -265,54 +266,53 @@ export default function NewsPage() {
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                     {news.map((article) => (
-                      <article key={article.id} className="group bg-white border border-gray-200 hover:border-red-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all">
-                        <div className="relative h-48 md:h-52 bg-gradient-to-br from-gray-50 to-white group-hover:from-red-50 overflow-hidden">
-                          {article.featured_image_url ? (
-                            <Image
-                              src={article.featured_image_url}
-                              alt={article.title}
-                              fill
-                              className="object-cover hover:scale-105 transition-transform duration-300"
-                            />
-                          ) : (
-                            <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                              <Newspaper className="w-12 h-12 text-gray-400" />
-                            </div>
-                          )}
-                        </div>
-                        <div className="p-6">
-                          {article.category && (
-                            <Badge 
-                              className="mb-3 text-xs"
-                              style={{ backgroundColor: article.category.color }}
-                            >
-                              {article.category.name}
-                            </Badge>
-                          )}
-                          <h3 className="font-bold text-lg md:text-xl mb-3 line-clamp-2 group-hover:text-red-600 transition text-gray-900">
-                            {article.title}
-                          </h3>
-                          <p className="text-gray-600 text-sm md:text-base mb-4 line-clamp-2">
-                            {article.summary}
-                          </p>
-                          <div className="flex items-center justify-between text-xs text-gray-500">
-                            <span className="flex items-center gap-1">
-                              <Calendar size={14} />
-                              {new Date(article.published_at).toLocaleDateString()}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Heart size={14} className="text-red-500 fill-red-50" />
-                              {article.view_count || 0}
-                            </span>
+                      <Link key={article.id} href={`/news/${article.slug}`} className="block hover:shadow-lg transition-all">
+                        <article className="bg-white border border-gray-200 hover:border-red-200 rounded-xl overflow-hidden shadow-sm">
+                          <div className="aspect-[16/9] relative bg-gradient-to-br from-gray-50 to-white hover:from-red-50 overflow-hidden">
+                            {article.featured_image_url ? (
+                              <Image
+                                src={article.featured_image_url}
+                                alt={article.title}
+                                fill
+                                className="object-cover hover:scale-105 transition-transform duration-300"
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                                <Newspaper className="w-12 h-12 text-gray-400" />
+                              </div>
+                            )}
                           </div>
-                          <Link
-                            href={`/news/${article.slug}`}
-                            className="mt-4 inline-flex items-center gap-1 text-red-600 hover:text-red-700 font-semibold text-sm group-hover:translate-x-1 transition-all block pt-2"
-                          >
-                            Read More <ArrowRight size={14} />
-                          </Link>
-                        </div>
-                      </article>
+                          <div className="p-6">
+                            {article.category && (
+                              <Badge 
+                                className="mb-3 text-xs"
+                                style={{ backgroundColor: article.category.color }}
+                              >
+                                {article.category.name}
+                              </Badge>
+                            )}
+                            <h3 className="font-bold text-lg md:text-xl mb-3 line-clamp-2 hover:text-red-600 transition text-gray-900">
+                              {article.title}
+                            </h3>
+                            <p className="text-gray-600 text-sm md:text-base mb-4 line-clamp-2">
+                              {article.summary}
+                            </p>
+                            <div className="flex items-center justify-between text-xs text-gray-500">
+                              <span className="flex items-center gap-1">
+                                <Calendar size={14} />
+                                {new Date(article.published_at).toLocaleDateString()}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <Heart size={14} className="text-red-500 fill-red-50" />
+                                {article.view_count || 0}
+                              </span>
+                            </div>
+                            <div className="mt-4 inline-flex items-center gap-1 text-red-600 hover:text-red-700 font-semibold text-sm transition-all block pt-2">
+                              Read More <ArrowRight size={14} />
+                            </div>
+                          </div>
+                        </article>
+                      </Link>
                     ))}
                   </div>
                 )}
@@ -324,4 +324,3 @@ export default function NewsPage() {
     </div>
   )
 }
-
