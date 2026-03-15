@@ -232,9 +232,7 @@ export default async function NewsArticlePage({ params, searchParams }: PageProp
               <Badge className="text-xs px-3 py-1 font-medium" style={{backgroundColor: article.category.color || "#dc2626"}}>
                 {article.category?.name || 'News'}
               </Badge>
-              <Badge variant="secondary" className="text-xs">
-                <Clock className="w-3 h-3 mr-1" /> {readingTime} min read
-              </Badge>
+             
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-8 leading-tight text-gray-900 font-normal tracking-tight">
               {article.title}
@@ -286,9 +284,13 @@ export default async function NewsArticlePage({ params, searchParams }: PageProp
               <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200/50 shadow-lg">
                 <h3 className="font-bold text-xl mb-4 text-gray-900">About Author</h3>
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-orange-500 rounded-2xl flex items-center justify-center">
-                    <User className="w-8 h-8 text-white" />
-                  </div>
+<Image
+                    src="/image/Dr.Dwamena_image.png"
+                    alt="Dr. Charles Dwamena"
+                    width={64}
+                    height={64}
+                    className="w-16 h-16 rounded-2xl object-cover shadow-md"
+                  />
                   <div>
                     <h4 className="font-bold text-lg">{article.author_name}</h4>
                     <p className="text-sm text-gray-600">Campaign Press Office</p>

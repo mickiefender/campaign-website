@@ -32,60 +32,60 @@ export function AchievementTabs() {
   const politicalAchievements = [
     {
       title: 'NPP National Tressurer',
-      description: 'Led the party\s financial management and fundraising efforts',
+      description: 'Led the party\'s financial management and fundraising efforts',
       impact: 'Financial stability and growth for the National Patriotic Party'
     },
     {
-      title: 'Ghana\s deputy Ambassador to the people of Republic of China',
+      title: 'Ghana\'s deputy Ambassador to the people of Republic of China',
       description: 'Strengthened diplomatic relations and promoted Ghana\'s interests in China',
-      impact: 'Enhanced Ghana\s international presence and economic partnerships with China'
+      impact: 'Enhanced Ghana\'s international presence and economic partnerships with China'
     },
     {
       title: 'Branch Chairman, China Branch of the New Patriotic Party (NPP)',
-      description: 'Led the party\s activities and engagement with the Ghanaian diaspora in China',
+      description: 'Led the party\'s activities and engagement with the Ghanaian diaspora in China',
       impact: 'Increased party membership and influence among the Ghanaian diaspora in China'
     },
     {
       title: 'Chairman, Asia-Pacific Caucaus of the New Patriotic Party (NPP)',
-      description: 'Led the party\s engagement and collaboration with political stakeholders in the Asia-Pacific region',
-      impact: 'Strengthened the party\s international alliances and support in the Asia-Pacific region'
+      description: 'Led the party\'s engagement and collaboration with political stakeholders in the Asia-Pacific region',
+      impact: 'Strengthened the party\'s international alliances and support in the Asia-Pacific region'
     },
      {
       title: 'New Patriotic Party (NPP) representative to the 2016 ECOWAS Commission Internal Democratic and Administrative Process Training Seminar',
       description: 'Represented the NPP at the training seminar on internal democratic and administrative processes in the ECOWAS region',
-      impact: 'Enhanced the party\s understanding and adherence to democratic principles in the ECOWAS region'
+      impact: 'Enhanced the party\'s understanding and adherence to democratic principles in the ECOWAS region'
     }, {
       title: 'New Patriotic Party (NPP) representative to the 2016 UNPD Democratic Governance Cluster Annual Retreat',
       description: 'Represented the NPP at the UNPD Democratic Governance Cluster Annual Retreat, contributing to discussions on democratic governance and development',
-      impact: 'Strengthened the party\s engagement with international organizations and promoted democratic governance'
+      impact: 'Strengthened the party\'s engagement with international organizations and promoted democratic governance'
     },
      {
       title: 'New Patriotic Party (NPP) Representative to the UNPD Climate Change Conference',
       description: 'Represented the NPP at the UNPD Climate Change Conference, contributing to discussions on climate change and sustainable development',
-      impact: 'Enhanced the party\s engagement with international organizations and promoted climate change awareness and sustainable development'
+      impact: 'Enhanced the party\'s engagement with international organizations and promoted climate change awareness and sustainable development'
     },
      {
       title: 'New Patriotic Party (NPP) Representative, Tourism and NaturalResources Management Seminar',
       description: 'Represented the NPP at the Tourism and Natural Resources Management Seminar',
-      impact: 'Enhanced the party\s understanding of tourism and natural resources management'
+      impact: 'Enhanced the party\'s understanding of tourism and natural resources management'
     },
     {
       title: 'Secretary to the 2016 National Campaign Committee of the New Patriotic Party (NPP)',
       description: 'Led the administrative and organizational efforts of the NPP National Campaign Committee',
-      impact: 'Enhanced the party\s campaign coordination and administrative efficiency'
+      impact: 'Enhanced the party\'s campaign coordination and administrative efficiency'
     },{
       title: 'Member/Secretary, 2016 Manifesto Launch Planning Committee of the National Executive Committee of the New Patriotic Party (NPP)',
       description: 'Led the planning and execution of the 2016 manifesto launch',
-      impact: 'Enhanced the party\s strategic planning and execution capabilities'
+      impact: 'Enhanced the party\'s strategic planning and execution capabilities'
     },
     {
       title: 'Patron, Ashanti Regional Women Wing of the New Patriotic Party (NPP)',
       description: 'Supported and promoted the activities of the Ashanti Regional Women Wing of the NPP',
-      impact: 'Enhanced women\s participation and leadership in the NPP in the Ashanti region'
+      impact: 'Enhanced women\'s participation and leadership in the NPP in the Ashanti region'
     },{
       title: 'Paliamentary Aspirant, New Patriotic Party (NPP) for the Kwadaso Constituency in the Ashanti Region-2015',
       description: 'Contested the 2015 parliamentary election for the Kwadaso Constituency in the Ashanti Region as a candidate of the New Patriotic Party (NPP)',
-      impact: 'Increased the party\s presence and influence in the Kwadaso Constituency'
+      impact: 'Increased the party\'s presence and influence in the Kwadaso Constituency'
     }
   ]
 
@@ -106,7 +106,7 @@ export function AchievementTabs() {
               <BookOpen className="text-white" size={24} />
             </div>
             <div className="text-left">
-              <h3 className="text-lg font-bold text-gray-900">Academic Background of Dr. Charles Dwamena</h3>
+              <h3 className="text-lg font-bold text-gray-900">Academic Background</h3>
               
             </div>
           </div>
@@ -151,7 +151,7 @@ export function AchievementTabs() {
               <Award className="text-white" size={24} />
             </div>
             <div className="text-left">
-              <h3 className="text-lg font-bold text-gray-900">Leadership and Political Background of Dr. Charles Dwamena</h3>
+              <h3 className="text-lg font-bold text-gray-900">Leadership and Political Background</h3>
              
             </div>
           </div>

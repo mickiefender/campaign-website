@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Heart, Users, Newspaper, ArrowRight, BookOpen, TrendingUp, Stethoscope, Building2, Leaf, Handshake, Menu, X, Calendar, User, Loader2 } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useEffect, useState } from 'react'
 import TypingName from '@/components/typing-name'
@@ -123,7 +124,7 @@ useEffect(() => {
         `}</style>
         <div className="marquee-text">
           <span className="text-sm md:text-base font-bold mx-8">
-           Rebuilding to restore the main love !!!•       Rebuilding to restore the main love!!! •    Rebuilding to restore the main love!!! •    Rebuilding to restore the main love!!!
+           Lets rebuild to restopre the love !!!•       Lets rebuild to restopre the love !!! •    Lets rebuild to restopre the love !!! •    Lets rebuild to restopre the love !!!
           </span>
         </div>
       </div>
@@ -519,14 +520,7 @@ py-3 px-4 md:py-4">
                 <AchievementTabs />
               </div>
 
-              {/* CTA Button */}
-              <Link
-                href="/vision"
-                className="inline-block px-8 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition transform hover:scale-105 shadow-lg hover:shadow-xl"
-                onClick={() => setIsLoading(true)}
-              >
-                Learn More
-              </Link>
+             
             </div>
           </div>
         </div>
@@ -588,7 +582,7 @@ py-3 px-4 md:py-4">
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Our Vision for Ghana
+            Our Vision for NPP
           </h2>
           <p className="text-center text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
             Dr. Charles Dwamena seeks the office of General Secretary so as to:
@@ -709,51 +703,53 @@ py-3 px-4 md:py-4">
                 ))
               ) : featuredNews.length > 0 ? (
                 featuredNews.map((article: any) => (
-                  <article key={article.id} className="group bg-card border border-border hover:border-accent rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all h-full flex-shrink-0 w-full md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2.66rem)] min-w-0 md:min-h-[400px]">
-
-                    <div className="relative h-48 lg:h-52 bg-gradient-to-br from-primary/10 to-accent/10 group-hover:from-primary/20 overflow-hidden">
-                      {article.featured_image_url ? (
-                        <Image
-                          src={article.featured_image_url}
-                          alt={article.title}
-                          fill
-                          className="object-cover hover:scale-105 transition-transform duration-300"
-                        />
-                      ) : null}
-                    </div>
-                    <div className="p-6">
-                      {article.category && (
-                        <Badge 
-                          className="mb-3"
-                          style={{ backgroundColor: article.category.color || '#dc2626' }}
-                        >
-                          {article.category.name}
-                        </Badge>
-                      )}
-                      <h3 className="font-bold text-lg md:text-xl mb-3 line-clamp-2 group-hover:text-foreground transition">
-                        {article.title}
-                      </h3>
-                      <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-                        {article.summary}
-                      </p>
-                      <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
-                        <span className="flex items-center gap-1">
-                          <Calendar size={14} />
-                          {new Date(article.published_at || article.created_at).toLocaleDateString()}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <User size={14} />
-                          {article.author_name}
-                        </span>
+                  <Link
+                    key={article.id}
+                    href={`/news/${article.slug}`}
+                    className="group block h-full flex-shrink-0 w-full md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2.66rem)] min-w-0 md:min-h-[400px]"
+                  >
+                    <Card className="h-full border-border hover:border-accent hover:shadow-xl transition-all overflow-hidden rounded-xl group-hover:-translate-y-1">
+                      <div className="relative h-48 lg:h-52 bg-gradient-to-br from-primary/10 to-accent/10 overflow-hidden">
+                        {article.featured_image_url ? (
+                          <Image
+                            src={article.featured_image_url}
+                            alt={article.title}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        ) : null}
                       </div>
-                      <Link
-                        href={`/news/${article.slug}`}
-                        className="inline-flex items-center gap-1 text-accent font-semibold hover:text-accent-foreground text-sm group-hover:translate-x-1 transition-all"
-                      >
-                        Read More <ArrowRight size={14} />
-                      </Link>
-                    </div>
-                  </article>
+                      <CardContent className="p-6">
+                        {article.category && (
+                          <Badge 
+                            className="mb-3"
+                            style={{ backgroundColor: article.category.color || '#dc2626' }}
+                          >
+                            {article.category.name}
+                          </Badge>
+                        )}
+                        <h3 className="font-bold text-lg md:text-xl mb-3 line-clamp-2 group-hover:text-foreground transition-colors">
+                          {article.title}
+                        </h3>
+                        <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+                          {article.summary}
+                        </p>
+                        <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
+                          <span className="flex items-center gap-1">
+                            <Calendar size={14} />
+                            {new Date(article.published_at || article.created_at).toLocaleDateString()}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <User size={14} />
+                            {article.author_name}
+                          </span>
+                        </div>
+                        <div className="inline-flex items-center gap-1 text-accent font-semibold hover:text-accent-foreground text-sm transition-colors">
+                          Read More <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
                 ))
               ) : (
                 <div className="col-span-full text-center py-20">
