@@ -31,7 +31,7 @@ const [mobileOpen, setMobileOpen] = useState(false)
       desc: 'Restore Leadership that is disciplined, and politically matured.',
       icon: <BookOpen className="text-white" size={24} />,
       color: 'bg-purple-500',
-      details: 'We believe in restoring Ghanaian leadership by providing opportunities for young people to learn and grow, and for experienced leaders to find their place in the political arena.'
+      details: 'Dr. Charles Dwamena seeks the office of General Secretary to work together with his collegues to rebuild the party in order to restore the Party\'s love so as to make H.E. Alhaji Mahamudu Bawumia the next President of Ghana.'
     },
     {
       id: 2,
