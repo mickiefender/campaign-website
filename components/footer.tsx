@@ -123,14 +123,14 @@ export function Footer() {
               <li className="flex items-start gap-3">
                 <Phone size={18} className="text-red-500 mt-1 flex-shrink-0" />
                 <div>
-                  <p className="text-gray-300 text-sm font-medium">+233 XXX XXX XXX</p>
+                  <a href="tel:+233248082635"><p className="text-gray-300 text-sm font-medium">+233 248 082 635</p></a>
                   <p className="text-gray-400 text-xs">Available 24/7</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
                 <Mail size={18} className="text-red-500 mt-1 flex-shrink-0" />
                 <div>
-                  <p className="text-gray-300 text-sm font-medium">info@dwamena.org</p>
+                  <a href="mailto:info@drdwamenaelections.org"><p className="text-gray-300 text-sm font-medium">info@drdwamenaelections.org</p></a>
                   <p className="text-gray-400 text-xs">Contact us anytime</p>
                 </div>
               </li>
@@ -140,7 +140,7 @@ export function Footer() {
           {/* Campaign Info */}
           <div>
             <h3 className="text-lg font-bold mb-6 text-white border-b border-red-500 pb-3">
-              Campaign 2028
+              Campaign 2026
             </h3>
             <div className="space-y-4">
               <div className="bg-gradient-to-r from-red-600/20 to-blue-600/20 rounded-lg p-4 border border-red-500/30">
@@ -162,7 +162,7 @@ export function Footer() {
         <div className="border-t border-gray-700 pt-8"></div>
 
         {/* Bottom Footer */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-center">
           
           {/* Copyright */}
           <div className="text-center md:text-left">
@@ -181,15 +181,37 @@ export function Footer() {
               Terms of Use
             </Link>
             <span className="text-gray-600">•</span>
-            <Link href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
-              Cookie Policy
-            </Link>
+            
           </div>
 
           {/* Right Text */}
-          <div className="text-center md:text-right">
+          <div className="text-center md:text-right col-span-1">
             <p className="text-gray-400 text-sm">
               Transforming Ghana Together
+            </p>
+          </div>
+
+          {/* Powered by Vertex Blueprint Technology */}
+          <div className="text-center md:text-right col-span-1">
+            <p className="text-gray-400 text-sm flex flex-col sm:flex-row items-center justify-center md:justify-end gap-1 sm:gap-2">
+              <span>Powered by
+             
+              <a 
+                href="https://vb-tech-main.vercel.app/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="font-semibold hover:text-white transition-colors text-xs sm:text-sm"
+              >
+                Vertex Blueprint Technology
+              </a>
+              { <Image 
+                src="/image/ERTEX BLUEPRINT (1).png" 
+                alt="Vertex Blueprint Technology" 
+                width={28} 
+                height={28} 
+                className="object-contain" 
+              /> }
+              </span>
             </p>
           </div>
 

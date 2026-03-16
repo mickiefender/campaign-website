@@ -6,42 +6,29 @@ import './globals.css'
 const inter = Inter({ 
   subsets: ['latin'],
   variable: '--font-inter',
-  display: 'swap',
+  display: 'swap'
 })
 
-const playfair = Playfair_Display({
+const playfair = Playfair_Display({ 
   subsets: ['latin'],
   variable: '--font-playfair',
-  display: 'swap',
+  display: 'swap'
 })
 
 export const metadata: Metadata = {
-  title: 'Dr. Charles Dwamena - NPP Campaign',
-  description: 'Leading Ghana Forward with integrity, innovation, and inclusive leadership. Support Dr. Charles Dwamena\'s vision for a prosperous Ghana.',
-  generator: 'v0.app',
+  title: 'NPP Campaign Website',
+  description: 'Official campaign website',
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+interface RootLayoutProps {
   children: React.ReactNode
-}>) {
-  const mapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+}
 
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
-      <head>
-        {mapsApiKey && (
-          <script
-            src={`https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}`}
-            async
-            defer
-          />
-        )}
-      </head>
-      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
+      <body className={inter.className}>
         {children}
-        
       </body>
     </html>
   )

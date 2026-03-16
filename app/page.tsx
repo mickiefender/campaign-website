@@ -124,7 +124,7 @@ useEffect(() => {
         `}</style>
         <div className="marquee-text">
           <span className="text-sm md:text-base font-bold mx-8">
-           Lets rebuild to restopre the love !!!•       Lets rebuild to restopre the love !!! •    Lets rebuild to restopre the love !!! •    Lets rebuild to restopre the love !!!
+           Lets rebuild to restore the love !!!•       Lets rebuild to restore the love !!! •    Lets rebuild to restore the love !!! •    Lets rebuild to restore the love !!!
           </span>
         </div>
       </div>
@@ -171,6 +171,7 @@ py-3 px-4 md:py-4">
       <Link href="#about" className="text-blue-900 text-sm md:text-base hover:text-primary transition duration-300 font-medium">About</Link>
       <Link href="#vision" className="text-blue-900 text-sm md:text-base hover:text-primary transition duration-300 font-medium">Vision</Link>
       <Link href="/contact" className="text-blue-900 text-sm md:text-base hover:text-primary transition duration-300 font-medium">Contact</Link>
+      <Link href="/news" className="text-blue-900 text-sm md:text-base hover:text-primary transition duration-300 font-medium">News</Link>
     </nav>
 
     {/* Mobile Hamburger */}
@@ -222,6 +223,14 @@ py-3 px-4 md:py-4">
       >
         Contact
       </Link>
+
+       <Link
+                    href="/news"
+                    onClick={() => setMobileOpen(false)}
+                    className="text-white font-medium hover:text-primary transition"
+                  >
+                    News
+                  </Link>
 
     </div>
   </div>

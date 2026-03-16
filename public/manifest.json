@@ -1,0 +1,16 @@
+{
+  "name": "Dr. Charles Dwamena Campaign",
+  "short_name": "Dwamena2026",
+  "description": "Leading Ghana Forward with integrity, innovation, and inclusive leadership.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#dc2626",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}

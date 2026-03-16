@@ -491,10 +491,15 @@ const [isExporting, setIsExporting] = useState(false)
       `}>
         <div className="p-6 border-b border-white/20">
           <div className="flex items-center justify-between">
-            <h1 className="text-xl font-bold flex items-center gap-2">
-              <Flag className="w-6 h-6 text-white" /> 
-              <span className="tracking-wide">Dr. Dwamena</span>
-            </h1>
+            <div className="relative w-12 h-12 rounded-xl overflow-hidden border-2 border-white/30 shadow-lg">
+              <Image
+                src="/image/Untitled design (54).png"
+                alt="Campaign Logo"
+                fill
+                className="object-contain p-1"
+                sizes="48px"
+              />
+            </div>
             {isMobile && (
               <button 
                 onClick={() => setSidebarOpen(false)}
@@ -504,7 +509,6 @@ const [isExporting, setIsExporting] = useState(false)
               </button>
             )}
           </div>
-          <p className="text-xs text-red-100 mt-1">Campaign Dashboard</p>
         </div>
         
         <nav className="flex-1 mt-6 space-y-1 px-3 overflow-y-auto">

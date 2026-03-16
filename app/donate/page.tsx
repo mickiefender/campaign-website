@@ -3,7 +3,9 @@ export const dynamic = "force-dynamic"
 
 
 import { useState } from 'react'
-import { Heart, Shield, Zap, AlertCircle, Calendar, Clock, Repeat, CreditCard } from 'lucide-react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { Heart, Shield, Zap, AlertCircle, Calendar, Clock, Repeat, CreditCard, Menu, X } from 'lucide-react'
 
 type PaymentCategory = 'daily' | 'weekly' | 'monthly' | 'onetime'
 
@@ -23,6 +25,7 @@ const CATEGORY_AMOUNTS: Record<PaymentCategory, number[]> = {
 
 export default function Donate() {
   const [paymentCategory, setPaymentCategory] = useState<PaymentCategory>('daily')
+  const [mobileOpen, setMobileOpen] = useState(false)
   const [donationAmount, setDonationAmount] = useState(5)
   const [customAmount, setCustomAmount] = useState('')
   const [isCustom, setIsCustom] = useState(false)
@@ -87,43 +90,127 @@ export default function Donate() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Decorative background elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-red-500/5 rounded-full blur-3xl -z-10"></div>
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl -z-10"></div>
+      {/* Scrolling Marquee - Before Header */}
+      <div className="fixed top-0 left-0 right-0 z-[60] bg-red-600 text-white py-1 overflow-hidden">
+        <style>{`
+          @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+          }
+          .marquee-text {
+            animation: marquee 20s linear infinite;
+            white-space: nowrap;
+          }
+        `}</style>
+        <div className="marquee-text">
+          <span className="text-sm md:text-base font-bold mx-8">
+           Lets rebuild to restore the love !!!•       Lets rebuild to restore the love !!! •    Lets rebuild to restore the love !!! •    Lets rebuild to restore the love !!!
+          </span>
+        </div>
+      </div>
+      
+      {/* Header - Fixed Above Everything */}
+      <header className="fixed top-[34px] md:top-[42px] left-0 right-0 z-50 
+      bg-gradient-to-b  
+      backdrop-blur-md 
+      py-3 px-4 md:py-4">
 
-      {/* Hero Section */}
-<section className="relative max-w-7xl mx-auto px-4 py-20 overflow-hidden rounded-2xl">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
 
-  {/* Background Image */}
-  <div className="absolute inset-0">
-    <img
-      src="/image/main-flyer.JPG" // 🔥 replace with your image path
-      alt="Campaign background"
-      className="w-full h-full object-cover"
-    />
-    {/* Dark Overlay for readability */}
-    <div className="absolute inset-0 bg-black/60"></div>
-  </div>
+          {/* Logo */}
+          <div className="flex items-center">
+            <Image
+              src="/image/campaign-logo1.png"
+              alt="Dr Dwamena Logo"
+              width={150}
+              height={50}
+              className="object-contain"
+              priority
+            />
+          </div>
 
-  {/* Content */}
-  <div className="relative text-center z-10">
-    <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white text-balance">
-      Support Ghana's Future
-    </h1>
+          {/* Mobile GS-2028 Badge */}
+          <div className="sm:hidden flex items-center gap-0.5 bg-white px-3 py-1.5 rounded-full shadow-sm border border-gray-100">
+            <span className="text-red-600 font-extrabold text-sm">General Secretary</span>
+            <span className="text-gray-400 text-sm">-</span>
+            <span className="text-blue-600 font-extrabold text-sm">2026</span>
+          </div>
 
-    <p className="text-xl text-white/90 mb-4 max-w-3xl mx-auto">
-      Dr. Charles Dwamena's campaign needs your support to reach every community and transform Ghana.
-    </p>
+          {/* Desktop Nav */}
+          <nav className="hidden sm:flex items-center gap-4 md:gap-8">
+            <Link href="/" className="text-blue-900 text-sm md:text-base hover:text-primary transition duration-300 font-medium">Home</Link>
+            <Link href="#about" className="text-blue-900 text-sm md:text-base hover:text-primary transition duration-300 font-medium">About</Link>
+            <Link href="#vision" className="text-blue-900 text-sm md:text-base hover:text-primary transition duration-300 font-medium">Vision</Link>
+            <Link href="/contact" className="text-blue-900 text-sm md:text-base hover:text-primary transition duration-300 font-medium">Contact</Link>
+            <Link href="/news" className="text-blue-900 text-sm md:text-base hover:text-primary transition duration-300 font-medium">news</Link>
+                  
+          </nav>
 
-    <p className="text-lg text-white/80 max-w-2xl mx-auto">
-      Every contribution, no matter the size, helps us bring our vision to life.
-    </p>
-  </div>
-</section>
+          {/* Mobile Hamburger */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="sm:hidden text-blue-900"
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+
+        {/* Mobile Menu Dropdown */}
+        <div
+          className={`sm:hidden overflow-hidden transition-all duration-300 ${
+            mobileOpen ? 'max-h-96 mt-4' : 'max-h-0'
+          }`}
+        >
+          <div className="bg-black/80 backdrop-blur-xl rounded-xl p-4 flex flex-col gap-4">
+
+            <Link
+              href="/"
+              onClick={() => setMobileOpen(false)}
+              className="text-white font-medium hover:text-primary transition"
+            >
+              Home
+            </Link>
+
+            <Link
+              href="#about"
+              onClick={() => setMobileOpen(false)}
+              className="text-white font-medium hover:text-primary transition"
+            >
+              About
+            </Link>
+
+            <Link
+              href="#vision"
+              onClick={() => setMobileOpen(false)}
+              className="text-white font-medium hover:text-primary transition"
+            >
+              Vision
+            </Link>
+
+            <Link
+              href="/contact"
+              onClick={() => setMobileOpen(false)}
+              className="text-white font-medium hover:text-primary transition"
+            >
+              Contact
+            </Link>
+
+             <Link
+              href="/news"
+              onClick={() => setMobileOpen(false)}
+              className="text-white font-medium hover:text-primary transition"
+            >
+              News
+            </Link>
+
+          </div>
+        </div>
+      </header>
 
 
       {/* Impact Section */}
-      <section className="max-w-7xl mx-auto px-4 py-16 border-t border-gray-200">
+      <section className="pt-44 md:pt-52 max-w-7xl mx-auto px-4 py-16 border-t border-gray-200">
         <h2 className="text-4xl font-bold mb-12 text-gray-900 text-center">Your Donation Makes a Difference</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
