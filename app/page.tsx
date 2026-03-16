@@ -51,7 +51,7 @@ const [mobileOpen, setMobileOpen] = useState(false)
     },
     {
       id: 4,
-      title: 'A leader That Create Enabling Environment',
+      title: 'A Leader That Create Enabling Environment',
       desc: 'Provide Leadership that create enabling environment for all executive officers whether elected or appointed to play their roles. ',
       icon: <Users className="text-white" size={24} />,
       color: 'bg-yellow-500',
@@ -59,7 +59,7 @@ const [mobileOpen, setMobileOpen] = useState(false)
     },
     {
       id: 5,
-      title: 'A leader That is in Touch with the People',
+      title: 'A Leader That is in Touch with the People',
       desc: 'Provide Leadership that is in touch with the people by visiting all the constituencies across the length and breadth of this country and not be an armchair General Secretary.',
       icon: <Leaf className="text-white" size={24} />,
       color: 'bg-green-500',
@@ -67,7 +67,7 @@ const [mobileOpen, setMobileOpen] = useState(false)
     },
     {
       id: 6,
-      title: 'A leader That Prioritizes the Welfare of Party Members',
+      title: 'A Leader That Prioritizes the Welfare of Party Members',
       desc: 'Provide Leadership that prioritizes the welfare of party members. This can be achieved through the comprehensive implementation of the policies such as the Business Incubation Fund; The Human Resource Empowerment Program; Rebust Welfare Fund for party members; Support to Former Executive Memebers; Support to Incumbent Executive Members; TESCON Secretariats and External Branch Secretariats. ',
       icon: <Handshake className="text-white" size={24} />,
       color: 'bg-pink-500',
@@ -520,7 +520,7 @@ py-3 px-4 md:py-4">
               
               <div className="space-y-4 mb-8">
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed">
-                  Dr. Charles Dwamena is a visionary leader with decades of experience in public service, an a luminary in Finance and Administration. Born and raised in Ghana, he understands the unique challenges facing our nation and is committed to delivering real solutions.
+                  Dr. Charles Dwamena is a visionary leader with decades of experience in public service, a luminary in Finance and Administration. Born and raised in Ghana, he understands the unique challenges facing our nation and is committed to delivering real solutions.
                 </p>
               </div>
 
