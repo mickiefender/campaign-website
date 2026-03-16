@@ -594,7 +594,7 @@ py-3 px-4 md:py-4">
             Our Vision for NPP
           </h2>
           <p className="text-center text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
-            Dr. Charles Dwamena seeks the office of General Secretary so as to:
+            Dr. Charles Dwamena seeks the office of General Secretary to rally the rank and file of the party to rebuild to restore the party's love. He intends to do that around the six key leadership pillars below:
           </p>
         </div>
 
