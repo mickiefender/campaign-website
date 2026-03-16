@@ -16,7 +16,7 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'NPP Campaign Website',
+  title: 'Dr Chales Dwamena for NPP General Secretary',
   description: 'Official campaign website',
 }
 
