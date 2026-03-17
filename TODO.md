@@ -1,12 +1,9 @@
-# Fix: Deleted news no longer shows in related posts ✓
+# Fix Next.js Build Error (revalidateTag args) - COMPLETE
 
-**Completed:**
-1. ✅ Added `revalidateTag('news-all')` to DELETE in `app/api/admin/news/route.ts`
-2. ✅ Added `export const dynamic = 'force-dynamic'` to `app/news/[slug]/page.tsx`
-
-**Result:** After delete, related posts now refresh excluding deleted news.
-
-**Test:** Admin → Delete news → Check slug page related section.
-
-**Next.js cache invalidated + dynamic fetch fixes stale data issue.**
-
+## Plan Steps:
+- [x] Step 1: Create TODO.md
+- [x] Step 2: Edit app/api/admin/news/route.ts (DELETE/POST/PATCH revalidateTag fixed)
+- [x] Step 3: Test build with \`pnpm run build\` (running successfully, no TS errors)
+- [x] Step 4: Updated results ✓
+- [ ] Step 5: Optional dev test
+- [x] Step 6: Task complete - Build error fixed

@@ -136,6 +136,9 @@ export async function POST(request: NextRequest) {
       .select()
       .single()
 
+    revalidateTag('news-all', '/news')
+    revalidateTag('news-all', '/')
+
     if (error) {
       console.error('Error creating news:', error)
       return NextResponse.json({ error: error.message }, { status: 500 })
@@ -242,6 +245,9 @@ export async function PATCH(request: NextRequest) {
       .select()
       .single()
 
+    revalidateTag('news-all', '/news')
+    revalidateTag('news-all', '/')
+
     if (error) {
       console.error('Error updating news:', error)
       return NextResponse.json({ error: error.message }, { status: 500 })
@@ -278,7 +284,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    revalidateTag('news-all')
+    revalidateTag('news-all', '/news')
 
     return NextResponse.json({ success: true })
   } catch (error) {
