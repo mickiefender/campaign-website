@@ -105,6 +105,8 @@ const getReadingTime = (htmlContent: string) => {
   return Math.ceil(words / 225)
 }
 
+export const dynamic = 'force-dynamic'
+
 export async function generateMetadata({ 
   params 
 }: PageProps): Promise<Metadata> {

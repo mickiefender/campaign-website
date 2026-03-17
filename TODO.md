@@ -1,13 +1,12 @@
-# User Manual Creation TODO - ✅ COMPLETE
+# Fix: Deleted news no longer shows in related posts ✓
 
-## Plan Steps
-- [x] 1. Create TODO.md (tracking file)
-- [x] 2. Create USER-MANUAL.md (comprehensive guide)
-- [x] 3. Demo/open manual for user (`open USER-MANUAL.md`)
-- [x] 4. Mark complete
+**Completed:**
+1. ✅ Added `revalidateTag('news-all')` to DELETE in `app/api/admin/news/route.ts`
+2. ✅ Added `export const dynamic = 'force-dynamic'` to `app/news/[slug]/page.tsx`
 
-**Status**: ✅ Task completed. USER-MANUAL.md ready at root (open in VSCode/Markdown preview). Covers all pages/features/admin flows.
+**Result:** After delete, related posts now refresh excluding deleted news.
 
-**Next**: Review & provide feedback if needed.
+**Test:** Admin → Delete news → Check slug page related section.
 
+**Next.js cache invalidated + dynamic fetch fixes stale data issue.**
 

@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth'
+import { revalidateTag } from 'next/cache'
 
 // Initialize Supabase client
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
@@ -276,6 +277,8 @@ export async function DELETE(request: NextRequest) {
       console.error('Error deleting news:', error)
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
+
+    revalidateTag('news-all')
 
     return NextResponse.json({ success: true })
   } catch (error) {
