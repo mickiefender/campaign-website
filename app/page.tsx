@@ -51,7 +51,7 @@ const [mobileOpen, setMobileOpen] = useState(false)
     },
     {
       id: 4,
-      title: 'A Leader That Create Enabling Environment',
+      title: 'A Leader That Creates Enabling Environment',
       desc: 'Provide Leadership that create enabling environment for all executive officers whether elected or appointed to play their roles. ',
       icon: <Users className="text-white" size={24} />,
       color: 'bg-yellow-500',

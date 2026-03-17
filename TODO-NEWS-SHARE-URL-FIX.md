@@ -4,7 +4,6 @@
 
 ### 1. Code Fix ✅ (Completed by BlackboxAI)
 - Updated `app/news/[slug]/page.tsx` baseUrl to auto-detect Vercel prod/preview/localhost
-- Created dynamic baseUrl using window.location (client), Vercel env vars (server), fallback to placeholder
 
 ### 2. Local Dev Setup
 ```
