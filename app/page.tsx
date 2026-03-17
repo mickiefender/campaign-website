@@ -357,7 +357,7 @@ py-3 px-4 md:py-4">
         <div className="contestant-card">
           <div className="contestant-card-image">
             <Image
-              src="/image/Hero-image final.jpg"
+              src="/image/0-0-Frame 1000010214.jpg"
               alt="Dr. Charles Dwamena"
               fill
               className="object-cover"

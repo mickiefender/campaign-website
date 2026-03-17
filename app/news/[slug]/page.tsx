@@ -91,7 +91,13 @@ async function fetchRelated(categorySlug: string, currentSlug: string): Promise<
   })) as RelatedArticle[]
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || `http://localhost:3000`
+const baseUrl = (() => {
+  if (typeof window !== 'undefined') return window.location.origin
+  return process.env.NEXT_PUBLIC_BASE_URL || 
+         process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 
+         process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` :
+         'https://your-campaign-domain.vercel.app'
+})()
 
 const getReadingTime = (htmlContent: string) => {
   const text = htmlContent.replace(/<[^>]*>/g, ' ').replace(/\\s+/g, ' ')
