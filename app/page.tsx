@@ -31,7 +31,7 @@ const [mobileOpen, setMobileOpen] = useState(false)
       desc: 'Restore Leadership that is disciplined, and politically matured.',
       icon: <BookOpen className="text-white" size={24} />,
       color: 'bg-purple-500',
-      details: 'Dr. Charles Dwamena seeks the office of General Secretary to work together with his collegues to rebuild the party in order to restore the Party\'s love so as to make H.E. Alhaji Mahamudu Bawumia the next President of Ghana.'
+      details: 'Dr. Charles Dwamena seeks the office of General Secretary to work together with his colleagues to rebuild the party in order to restore the Party\'s love so as to make H.E. Alhaji Mahamudu Bawumia the next President of Ghana.'
     },
     {
       id: 2,
@@ -44,7 +44,7 @@ const [mobileOpen, setMobileOpen] = useState(false)
     {
       id: 3,
       title: 'Good Decisions',
-      desc: 'Ensure that all decisions are based on research an sound judgement.',
+      desc: 'Ensure that all decisions are based on research and sound judgement.',
       icon: <Newspaper className="text-white" size={24} />,
       color: 'bg-cyan-500',
       details: 'Our vision is to ensure that all decisions are based on research and sound judgement. We will invest in data collection and analysis, and we will ensure that our leaders have access to the information they need to make informed decisions.'
