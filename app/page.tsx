@@ -133,7 +133,7 @@ useEffect(() => {
       
       {/* Video Modal - Displays on page load and every refresh */}
       <VideoModal 
-        videoUrl="/compressed-2EgY30rG.mp4"
+        videoUrl="/VIDEO-2026-03-19-16-12-03.mp4"
         title="Dr. Charles Dwamena's Campaign Message"
       />
 
