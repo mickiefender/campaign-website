@@ -160,7 +160,7 @@ py-3 px-4 md:py-4">
 
     {/* Mobile GS-2028 Badge */}
     <div className="sm:hidden flex items-center gap-0.5 bg-white px-3 py-1.5 rounded-full shadow-sm border border-gray-100">
-      <span className="text-red-600 font-extrabold text-sm">General Secretary</span>
+      <span className="text-red-600 font-extrabold text-sm">For General Secretary</span>
       <span className="text-gray-400 text-sm">-</span>
       <span className="text-blue-600 font-extrabold text-sm">2026</span>
     </div>
